@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+<link rel="stylesheet" href="global.css">
+
+<body>
+    <img src="project_logo.png" width="150" height="150" style="float: left;">
+    <div class="center">
+        <form id="createNewUserForm"  onsubmit="SubmitForm(); return false">
+            <h1>Forgot your password?</h1>
+            <label for="firstName">Enter your first name:</label><br>
+            <input type="text" id="firstName" name="firstName" placeholder="Enter your first name..."><br>
+            <label for="lastName">Enter your last name:</label><br>
+            <input type="text" id="lastName" name="lastName" placeholder="Enter your last name..."><br>
+            <label for="address">Enter your address:</label><br>
+            <input type="text" id="address" name="address" placeholder="Enter your address...">
+            <label for="DOB">Enter your date of birth:</label><br>
+            <input type="text" id="DOB" name="DOB" placeholder="Enter your date of birth...">
+            <label for="DOB">Enter your password</label><br>
+            <input type="text" class="password" name="password" placeholder="Enter your password...">
+            <div>
+                <button type="submit" class="submitBtn">Submit</button>
+                <label class="infoLabel"></label><br>
+                <a href="./loginpage.html">
+                    <button type="button">Back</button><br>
+                </a>
+            </div>
+        </form>
+    </div>
+    <script src="createnewuser.js"></script>
+</body>
+
+</html>

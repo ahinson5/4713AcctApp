@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="global.css">
+</head>
+
+<body>
+    <img src="project_logo.png" width="150" height="150" style="float: left;">
+
+    <div class="center">
+        <a href="./homepage-view.html"><button>View</button></a>
+        <a href="./homepage-edit.html"><button>Edit</button></a>
+        <h1>Chart of Accounts</h1>
+        <table>
+            <tr>
+                <th>No.</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>To Increase</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>101</td>
+                <td><a href="./cashaccount.html">Cash</a></td>
+                <td>Asset</td>
+                <td>Debit</td>
+                <td><button class="isAcctActiveBtn" style="scale: 0.75; min-width: 150px">Active</button></td>
+            </tr>
+            <tr>
+                <td>201</td>
+                <td>Accounts Payable</td>
+                <td>Liability</td>
+                <td>Credit</td>
+                <td><button class="isAcctActiveBtn" style="scale: 0.75; min-width: 150px">Active</button></td>
+            </tr>
+            <tr>
+                <td>301</td>
+                <td>Owner's Equity</td>
+                <td>Equity</td>
+                <td>Credit</td>
+                <td><button class="isAcctActiveBtn" style="scale: 0.75; min-width: 150px">Active</button></td>
+            </tr>
+        </table>
+    </div>
+    <div class="right">
+        <img src="default_user.png" width="100" height="87" style="float: right;"><br>
+        <label id="usernameProfileLabel" style="float: right"></label><br>
+        <a href="./loginpage.html">
+            <button id="logoutButton" style="margin-top: 1rem;">Logout</button>
+        </a>
+    </div>
+    <script src="./homepage-view.js"></script>
+</body>
+
+</html>
