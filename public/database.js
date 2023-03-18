@@ -1,5 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js"
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, onValue } from "firebase/database"
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -14,7 +14,7 @@ const app = initializeApp(firebaseConfig);
 
 
 // Initialize Realtime Database and get a reference to the service
-const database = getDatabase(app);
+const db = getDatabase(app);
 
 function DoStuff(){
     console.log("Doing things");
@@ -22,18 +22,15 @@ function DoStuff(){
 
 function writeUserData(username, password) {
 
-    set(ref(db, 'users/' + userId), {
+    set(ref(db, 'users/' + username), {
         username: username,
         password: password,
     });
 }
 
-function readUserData(path){
+export function readUserData(path){
     onValue(ref(db, path), (snapshot) => {
         const data = snapshot.val();
-        console.log(`Got ${data} from database`)
+        console.log(`Got ${data.username} from database`)
     });
 }
-
-
-

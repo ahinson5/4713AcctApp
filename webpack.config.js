@@ -1,7 +1,10 @@
 const path = require('path');
 
 module.exports = {
-    entry: "./public/index.js",
+    entry: {
+        database: "./public/database.js",
+        index: "./public/index.js",
+    },
     mode: "development",
     devtool: "eval-source-map",
     module: {
@@ -13,8 +16,9 @@ module.exports = {
         ],
     },
     output: {
-        path:  path.join(__dirname, 'public'),
-        filename: "bundle.js",
+        path:  path.join(__dirname, 'public/dist'),
+        filename: "[name].bundle.js",
+        clean: true,
     },
 
     devServer: {
