@@ -4,6 +4,7 @@ module.exports = {
     entry: {
         database: "./public/database.js",
         index: "./public/index.js",
+        createnewuser: "./public/createnewuser.js"
     },
     mode: "development",
     devtool: "eval-source-map",

@@ -20,11 +20,21 @@ function DoStuff(){
     console.log("Doing things");
 }
 
-function writeUserData(username, password) {
+export function writeUserData(username, password) {
 
     set(ref(db, 'users/' + username), {
         username: username,
         password: password,
+    });
+}
+
+export function createNewUser(username, address, DOB, pw) {
+    
+    set(ref(db, 'users/' + username), {
+        userName: username,
+        userAddress: address,
+        userDOB: DOB,
+        userPW: pw
     });
 }
 

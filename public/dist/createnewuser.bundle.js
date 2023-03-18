@@ -30,6 +30,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./public/createnewuser.js":
+/*!*********************************!*\
+  !*** ./public/createnewuser.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _database_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./database.js */ \"./public/database.js\");\n\r\n/* var submitBtn = document.querySelector(\"#createNewUserForm button[class='submitBtn']\");\r\n\r\nsubmitBtn.addEventListener(\"click\", () => {\r\n    console.log(\"Clicked\");\r\n}); */\r\n\r\nvar form = document.querySelector(\"#createNewUserForm\");\r\nvar label = form.querySelector(\"label[class='infoLabel']\");\r\n\r\nfunction SubmitForm(){\r\n    var firstNameInput = form.querySelector(\"input[id='firstName']\");\r\n    var lastNameInput = form.querySelector(\"input[id='lastName']\");\r\n    var addressInput = form.querySelector(\"input[id='address']\");\r\n    var dobInput = form.querySelector(\"input[id='DOB']\"); \r\n    var passwordInput = form.querySelector(\"input[class='password']\");\r\n    var username = \"\";\r\n\r\n    username += firstNameInput.value[0];\r\n    username += lastNameInput.value;\r\n\r\n    (0,_database_js__WEBPACK_IMPORTED_MODULE_0__.createNewUser)(username, addressInput,dobInput,passwordInput)\r\n    \r\n    label.textContent = \"New User Created!\";\r\n}//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9wdWJsaWMvY3JlYXRlbmV3dXNlci5qcy5qcyIsIm1hcHBpbmdzIjoiOztBQUE4QztBQUM5QztBQUNBO0FBQ0E7QUFDQTtBQUNBLENBQUMsR0FBRztBQUNKO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLElBQUksMkRBQWE7QUFDakI7QUFDQTtBQUNBIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vcHVibGljL2NyZWF0ZW5ld3VzZXIuanM/ZjM2NyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBjcmVhdGVOZXdVc2VyIH0gZnJvbSBcIi4vZGF0YWJhc2UuanNcIjtcclxuLyogdmFyIHN1Ym1pdEJ0biA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIjY3JlYXRlTmV3VXNlckZvcm0gYnV0dG9uW2NsYXNzPSdzdWJtaXRCdG4nXVwiKTtcclxuXHJcbnN1Ym1pdEJ0bi5hZGRFdmVudExpc3RlbmVyKFwiY2xpY2tcIiwgKCkgPT4ge1xyXG4gICAgY29uc29sZS5sb2coXCJDbGlja2VkXCIpO1xyXG59KTsgKi9cclxuXHJcbnZhciBmb3JtID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIiNjcmVhdGVOZXdVc2VyRm9ybVwiKTtcclxudmFyIGxhYmVsID0gZm9ybS5xdWVyeVNlbGVjdG9yKFwibGFiZWxbY2xhc3M9J2luZm9MYWJlbCddXCIpO1xyXG5cclxuZnVuY3Rpb24gU3VibWl0Rm9ybSgpe1xyXG4gICAgdmFyIGZpcnN0TmFtZUlucHV0ID0gZm9ybS5xdWVyeVNlbGVjdG9yKFwiaW5wdXRbaWQ9J2ZpcnN0TmFtZSddXCIpO1xyXG4gICAgdmFyIGxhc3ROYW1lSW5wdXQgPSBmb3JtLnF1ZXJ5U2VsZWN0b3IoXCJpbnB1dFtpZD0nbGFzdE5hbWUnXVwiKTtcclxuICAgIHZhciBhZGRyZXNzSW5wdXQgPSBmb3JtLnF1ZXJ5U2VsZWN0b3IoXCJpbnB1dFtpZD0nYWRkcmVzcyddXCIpO1xyXG4gICAgdmFyIGRvYklucHV0ID0gZm9ybS5xdWVyeVNlbGVjdG9yKFwiaW5wdXRbaWQ9J0RPQiddXCIpOyBcclxuICAgIHZhciBwYXNzd29yZElucHV0ID0gZm9ybS5xdWVyeVNlbGVjdG9yKFwiaW5wdXRbY2xhc3M9J3Bhc3N3b3JkJ11cIik7XHJcbiAgICB2YXIgdXNlcm5hbWUgPSBcIlwiO1xyXG5cclxuICAgIHVzZXJuYW1lICs9IGZpcnN0TmFtZUlucHV0LnZhbHVlWzBdO1xyXG4gICAgdXNlcm5hbWUgKz0gbGFzdE5hbWVJbnB1dC52YWx1ZTtcclxuXHJcbiAgICBjcmVhdGVOZXdVc2VyKHVzZXJuYW1lLCBhZGRyZXNzSW5wdXQsZG9iSW5wdXQscGFzc3dvcmRJbnB1dClcclxuICAgIFxyXG4gICAgbGFiZWwudGV4dENvbnRlbnQgPSBcIk5ldyBVc2VyIENyZWF0ZWQhXCI7XHJcbn0iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./public/createnewuser.js\n");
+
+/***/ }),
+
 /***/ "./public/database.js":
 /*!****************************!*\
   !*** ./public/database.js ***!
@@ -182,7 +192,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval-source-map devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./public/database.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./public/createnewuser.js");
 /******/ 	
 /******/ })()
 ;

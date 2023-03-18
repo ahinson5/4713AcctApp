@@ -1,3 +1,4 @@
+import { createNewUser } from "./database.js";
 /* var submitBtn = document.querySelector("#createNewUserForm button[class='submitBtn']");
 
 submitBtn.addEventListener("click", () => {
@@ -10,14 +11,15 @@ var label = form.querySelector("label[class='infoLabel']");
 function SubmitForm(){
     var firstNameInput = form.querySelector("input[id='firstName']");
     var lastNameInput = form.querySelector("input[id='lastName']");
-
-    var username = "";
+    var addressInput = form.querySelector("input[id='address']");
+    var dobInput = form.querySelector("input[id='DOB']"); 
     var passwordInput = form.querySelector("input[class='password']");
+    var username = "";
 
     username += firstNameInput.value[0];
     username += lastNameInput.value;
 
-    localStorage.setItem("username", username);
-    localStorage.setItem("password", passwordInput.value)
+    createNewUser(username, addressInput,dobInput,passwordInput)
+    
     label.textContent = "New User Created!";
 }
