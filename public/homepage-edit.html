@@ -6,13 +6,17 @@
   </head>
 
 <body>
-    <img src="project_logo.png" width="150" height="150" style="float: left;">
+    <div class="left">
+        <img src="project_logo.png" width="150" height="150"><br>
+        <a href="./homepage-view.html"><button>Chart of Accounts</button></a><br>
+    </div>
 
     <div class="center">
+        <h1>Chart of Accounts</h1>
         <a href="./homepage-view.html"><button>View</button></a>
         <a href="./homepage-edit.html"><button>Edit</button></a>
-        <h1>Chart of Accounts</h1>
-        <table>
+        <button id="COASaveBtn" style="float: right;">Save</button><br>
+        <table id="COAEditTable">
             <tr>
                 <th>No.</th>
                 <th>Title</th>
@@ -51,7 +55,7 @@
         </a>
     </div>
 
-    <script src="./homepage-edit.js"></script>
+    <script src="./dist/homepageEdit.bundle.js"></script>
 </body>
 
 </html>

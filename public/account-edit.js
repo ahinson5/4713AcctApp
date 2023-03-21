@@ -1,0 +1,1 @@
+document.querySelector("#accountEditHeader").innerHTML = window.sessionStorage.getItem("accountAnchorName") + " Ledger";

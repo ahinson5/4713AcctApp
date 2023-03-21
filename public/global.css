@@ -9,6 +9,10 @@
     float: right;
 }
 
+.left {
+    float: left;
+}
+
 table {
     width: 100%;
     min-width: 1000px;
