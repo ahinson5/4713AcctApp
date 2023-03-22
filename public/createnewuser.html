@@ -8,8 +8,9 @@
 
 <body>
     <img src="project_logo.png" width="150" height="150" style="float: left;">
+
     <div class="center">
-        <form id="createNewUserForm"  onsubmit="SubmitForm(); return false">
+        <form id="createNewUserForm" onsubmit="return false">
             <h1>Forgot your password?</h1>
             <label for="firstName">Enter your first name:</label><br>
             <input type="text" id="firstName" name="firstName" placeholder="Enter your first name..."><br>
@@ -29,7 +30,7 @@
                 </a>
             </div>
         </form>
+        <script src="./dist/createnewuser.bundle.js"></script>
     </div>
-    <script type="module" src="./dist/createnewuser.bundle.js"></script>
-
+</body>
 </html>

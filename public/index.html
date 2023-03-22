@@ -8,23 +8,20 @@
 <body>
     <img src="project_logo.png" width="150" height="150" style="float: left;">
     <div class="center">
-        <form action="">
+        <form id="loginHandlingForm" onsubmit="return false">
             <h1>Welcome to PROdigious <br />Accounting Software!</h1>
             <label for="username">Username:</label><br>
             <input type="text" id="username" name="username" placeholder="Enter your username..."><br>
             <label for="password">Password:</label><br>
             <input type="password" id="password" name="password" placeholder="Enter your password...">
+            <div class="loginButtons">
+                <button onclick="window.location.href = './homepage-view.html';" value="homepagebutton">Login</button>
+                <label id="loginInfoLabel"></label><br>
+                <button onclick="window.location.href = './forgotpassword.html';" value="forgotPasswordButton">Forgot Password</button><br>
+                <button onclick="window.location.href = './createnewuser.html';" value="CreateUserButton">Create New User</button>
+            </div>
         </form>
-        <div class="loginButtons">
-            <button id="loginButton">Login</button>
-            <label id="loginInfoLabel"></label><br>
-            <a href="./forgotpassword.html">
-                <button id="forgotPasswordButton">Forgot Password</button><br>
-            </a>
-            <a href="./createnewuser.html">
-                <button id="createUserButton">Create New User</button>
-            </a>
-        </div>
+
     </div>
     <script src="./dist/firebaseinit.bundle.js"></script>
     <script src="./dist/index.bundle.js"></script>

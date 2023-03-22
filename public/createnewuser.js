@@ -1,25 +1,29 @@
-import { createNewUser } from "./database.js";
-/* var submitBtn = document.querySelector("#createNewUserForm button[class='submitBtn']");
+import { app } from "./firebaseinit";
+import { getDatabase, ref, set } from "firebase/database";
 
-submitBtn.addEventListener("click", () => {
-    console.log("Clicked");
-}); */
 
 var form = document.querySelector("#createNewUserForm");
 var label = form.querySelector("label[class='infoLabel']");
+form.addEventListener("submit", SubmitForm);
+function SubmitForm() {
 
-function SubmitForm(){
-    var firstNameInput = form.querySelector("input[id='firstName']");
-    var lastNameInput = form.querySelector("input[id='lastName']");
-    var addressInput = form.querySelector("input[id='address']");
-    var dobInput = form.querySelector("input[id='DOB']"); 
-    var passwordInput = form.querySelector("input[class='password']");
-    var username = "";
+    var fName = form.querySelector("input[id ='firstName']");
+    var lName = form.querySelector("input[id ='lastName']");
+    var address = form.querySelector("input[id ='address']");
+    var DOB = form.querySelector("input[id ='DOB']");
+    var pword = form.querySelector("input[class='password']");
+    var fullname = lName.value + " " + fName.value;
 
-    username += firstNameInput.value[0];
-    username += lastNameInput.value;
-
-    createNewUser(username, addressInput,dobInput,passwordInput)
+    var username = fName.value[0];
+    username += lName.value;
     
-    label.textContent = "New User Created!";
-}
+    const db = getDatabase(app);
+    set(ref(db, 'users/' + username), {
+        userName: fullname,
+        userAddress: address.value,
+        userDOB: DOB.value,
+        userPW: pword.value,
+        userRole: "accountant"
+     });
+    window.location.href = './index.html';
+};
