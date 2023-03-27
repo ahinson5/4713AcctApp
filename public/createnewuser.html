@@ -11,7 +11,7 @@
 
     <div class="center">
         <form id="createNewUserForm" onsubmit="return false">
-            <h1>Forgot your password?</h1>
+            <h1>Enter your information</h1>
             <label for="firstName">Enter your first name:</label><br>
             <input type="text" id="firstName" name="firstName" placeholder="Enter your first name..."><br>
             <label for="lastName">Enter your last name:</label><br>
@@ -25,9 +25,7 @@
             <div>
                 <button type="submit" class="submitBtn">Submit</button>
                 <label class="infoLabel"></label><br>
-                <a href="./index.html">
-                    <button type="button">Back</button><br>
-                </a>
+                <button onclick="window.location.href = './index.html';" value="backButton">Back</button><br>
             </div>
         </form>
         <script src="./dist/createnewuser.bundle.js"></script>

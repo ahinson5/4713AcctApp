@@ -1,31 +1,29 @@
-function forgotpassword(){
-    var usernameInput = document.querySelector("#forgotPasswordForm input[id='username']");
-    var newPasswordInput = document.querySelector("#forgotPasswordForm input[id='newPassword']");
+import { app } from "./firebaseinit";
+import { child, get, getDatabase, ref, set } from "firebase/database";
 
-    var infoLabel = document.querySelector("#forgotPasswordForm label[class='infoLabel']");
-    var submitBtn = document.querySelector("#forgotPasswordForm button[id='submitNewPassword']");
+// variable setup and html references
+var form = document.querySelector("#forgotPasswordForm");
+var usernameBox = document.querySelector("#forgotPasswordForm input[id='username']");
+var passwordBox = document.querySelector("#forgotPasswordForm input[id='newPassword']");
+var infoLabel = document.querySelector("#forgotPasswordForm label[class='infoLabel']");
 
-    var currentPassword = window.localStorage.getItem("password");
-    var currentUsername = window.localStorage.getItem("username");
-    console.log(`Username: ${currentUsername} Password: ${currentPassword}`);
-    submitBtn.addEventListener("click", () => {
+//listener and firebase db ref
+form.addEventListener("submit", changePassword);
+const db = getDatabase(app);
 
-        if (currentUsername != usernameInput.value) {
-            infoLabel.textContent = "Username not found";
-            return;
-        } else if (currentPassword != currentPasswordInput.value) {
-            infoLabel.textContent = "Current password not found.";
-            return;
+//get checks username in db, set changes username pw then redirects to index screen for login
+function changePassword() { 
+    get(child(db, `users/` + usernameBox.value)).then((snapshot) => {
+        if (snapshot.exists()) {
+            if (snapshot.val().userPW != passwordBox.value) {
+                 set(ref(db, 'users/' + usernameBox.value), {
+                     userPW: passwordBox.value
+                 }).then(() => window.location.href = "./index.html");
+            }
+        } else {
+            console.log("This username does not exist");
         }
-        else if (currentPassword == newPasswordInput.value) {
-            infoLabel.textContent = "Password already in use.";
-            return;
-        } else if (newPasswordInput.value == '') {
-            infoLabel.textContent = "New password field is empty.";
-            return;
-        }
-        window.localStorage.setItem("password", newPasswordInput.value);
-        infoLabel.textContent = "Congrats, you have changed your password.";
-        console.log(`Password changed to: ${window.localStorage.getItem("password")}`);
+    }).catch((error) => {
+        console.error(error);
     });
 };

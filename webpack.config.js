@@ -6,7 +6,8 @@ module.exports = {
         firebaseinit: "./public/firebaseinit.js",
         index: "./public/index.js",
         createnewuser: "./public/createnewuser.js",
-        homepageEdit: "./public/homepage-edit.js"
+        homepageEdit: "./public/homepage-edit.js",
+        forgotpassword: "./public/forgotpassword.js"
     },
     mode: "development",
     devtool: "eval-source-map",
