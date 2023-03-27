@@ -1,5 +1,5 @@
 import { app } from "./firebaseinit";
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, set, update } from "firebase/database";
 
 // variable setup and html references
 var form = document.querySelector("#forgotPasswordForm");
@@ -13,16 +13,13 @@ const db = getDatabase(app);
 
 //get checks username in db, set changes username pw then redirects to index screen for login
 function changePassword() { 
-    get(child(db, `users/` + usernameBox.value)).then((snapshot) => {
+    get(child(ref(db), `users/` + usernameBox.value)).then((snapshot) => {
+        console.log("snapshot");
         if (snapshot.exists()) {
-            if (snapshot.val().userPW != passwordBox.value) {
-                 set(ref(db, 'users/' + usernameBox.value), {
-                     userPW: passwordBox.value
-                 }).then(() => window.location.href = "./index.html");
-            }
-        } else {
-            console.log("This username does not exist");
-        }
+             update(ref(db, 'users/' + usernameBox.value), {
+                 userPW: passwordBox.value
+             }).then(() => window.location.href = "./index.html");
+         }
     }).catch((error) => {
         console.error(error);
     });
