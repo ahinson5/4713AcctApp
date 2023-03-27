@@ -6,6 +6,7 @@ module.exports = {
         firebaseinit: "./public/firebaseinit.js",
         index: "./public/index.js",
         createnewuser: "./public/createnewuser.js",
+        homepageView: "./public/homepage-view.js",
         homepageEdit: "./public/homepage-edit.js"
     },
     mode: "development",
