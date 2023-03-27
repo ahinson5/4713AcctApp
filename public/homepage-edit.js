@@ -15,7 +15,7 @@ saveDataButton.addEventListener("click", () => {
     ReadInfoFromDatabase();
 });
 
-
+//Grabs all the data from the HTML table's input fields and writes them to the Realtime Database.
 function WriteToDatabase() {
     const table = document.getElementById("COAEditTable");
     const rows = table.getElementsByTagName("tr");
@@ -40,6 +40,7 @@ function WriteToDatabase() {
     }
 }
 
+//For each piece of data fetched from the Realtime Database, update the corresponding HTML table elements.
 function ReadInfoFromDatabase(){
     const dbRef = ref(getDatabase(app));
     const table = document.getElementById("COAEditTable");

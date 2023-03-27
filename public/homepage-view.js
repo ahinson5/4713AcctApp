@@ -7,19 +7,21 @@ window.addEventListener('load', (event) => {
     ReadFromDatabase();
 });
 
+//Listen to the account title's click event.
 var accountAnchors = document.querySelectorAll(".accountAnchor");
-
 accountAnchors.forEach(element => {
     element.addEventListener("click", () => {
         ParseAnchor(element);
     })
 });
 
+//Store the account title's link you clicked and navigate to the ledger HTML page.
 function ParseAnchor(element){
     window.sessionStorage.setItem("accountAnchorName", element.innerHTML);
     window.location = "./account-view.html";
 }
 
+//For each piece of data fetched form the DB, update the HTML table values.
 function ReadFromDatabase(){
     const dbRef = ref(getDatabase(app));
     const table = document.getElementById("COAViewTable");
@@ -39,6 +41,7 @@ function ReadFromDatabase(){
             i++;
         });
 
+        //Change the button color according to the IsActive value stored in the database.
         var j = 1;
         snapshot.forEach((child) => {
             const buttons = rows[j].getElementsByTagName("button");
