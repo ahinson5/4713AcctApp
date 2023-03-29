@@ -28,6 +28,7 @@ function loginProc() {
         get(child(dbRef, `users/`+ usernameBox.value)).then((snapshot) => {
             if (snapshot.exists()) {
                 if (snapshot.val().userPW == passwordBox.value) {
+                    window.sessionStorage.setItem("currentUser", usernameBox.value);
                     window.location.href = "./homepage-view.html";
                 }
             } else {

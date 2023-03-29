@@ -8,7 +8,9 @@ module.exports = {
         createnewuser: "./public/createnewuser.js",
         forgotpassword: "./public/forgotpassword.js",
         homepageView: "./public/homepage-view.js",
-        homepageEdit: "./public/homepage-edit.js"
+        homepageEdit: "./public/homepage-edit.js",
+        accountView: "./public/account-view.js",
+        accountEdit: "./public/account-edit.js"
     },
     mode: "development",
     devtool: "eval-source-map",

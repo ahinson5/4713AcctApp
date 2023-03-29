@@ -12,7 +12,7 @@
         <div class="center">
             <h1 id="accountViewHeader">Welcome to your Cash Account</h1>
             <a href="./account-view.html"><button>View</button></a>
-            <a href="./account-edit.html"><button>Edit</button></a>
+            <a href="./account-edit.html"><button class="accountEditBtn hidden">Edit</button></a>
             <table>
                 <tr>
                     <th>Transaction</th>
@@ -46,11 +46,11 @@
         </div>
         <div class="right">
             <img src="default_user.png" width="100" height="87" style="float: right;"><br>
-            <label id="usernameProfileLabel" style="float: right"></label><br>
+            <label class="usernameProfileLabel" style="float: right"></label><br>
             <a href="./index.html">
                 <button id="logoutButton" style="margin-top: 1rem;">Logout</button>
             </a>
         </div>
-        <script src="./account-view.js"></script>
+        <script src="./dist/accountView.bundle.js"></script>
     </body>
 </html>

@@ -1,10 +1,11 @@
 import {app} from "./firebaseinit";
 import {get, getDatabase, ref, child, set} from "firebase/database";               
-
+import { ShowLoggedInUserInfo } from "./MyUtil";
 
 window.addEventListener('load', (event) => {
-    document.getElementById('usernameProfileLabel').textContent = localStorage.getItem('username');
-    ReadFromDatabase();
+    ShowLoggedInUserInfo();
+    CheckRole("homepageEditBtn");
+    ReadTableFromDatabase();
 });
 
 //Listen to the account title's click event.
@@ -15,6 +16,17 @@ accountAnchors.forEach(element => {
     })
 });
 
+function CheckRole(classNameTohide){
+    const dbRef = ref(getDatabase(app));
+
+    get(child(dbRef, `users/${sessionStorage.getItem("currentUser")}`)).then((snapshot) => {
+        if(snapshot.val().userRole == "Administrator" || snapshot.val().userRole == "Manager"){
+            var edtBtn = document.querySelector(`.${classNameTohide}`);
+            edtBtn.classList.remove("hidden");
+        }
+    });
+}
+
 //Store the account title's link you clicked and navigate to the ledger HTML page.
 function ParseAnchor(element){
     window.sessionStorage.setItem("accountAnchorName", element.innerHTML);
@@ -22,7 +34,7 @@ function ParseAnchor(element){
 }
 
 //For each piece of data fetched form the DB, update the HTML table values.
-function ReadFromDatabase(){
+function ReadTableFromDatabase(){
     const dbRef = ref(getDatabase(app));
     const table = document.getElementById("COAViewTable");
     const rows = table.getElementsByTagName("tr");

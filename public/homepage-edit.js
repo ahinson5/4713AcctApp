@@ -1,12 +1,12 @@
 import {app} from "./firebaseinit";
 import {get, getDatabase, ref, child, set} from "firebase/database";               
+import { ShowLoggedInUserInfo } from "./MyUtil";
 
 var saveDataButton = document.querySelector('#COASaveBtn');
 var btns = document.getElementsByClassName("isAcctActiveBtn");
 
 window.addEventListener('load', (event) => {
-    document.getElementById('usernameProfileLabel').textContent = localStorage.getItem('username');
-
+    ShowLoggedInUserInfo();
     ReadInfoFromDatabase();
 });
 
@@ -14,7 +14,6 @@ saveDataButton.addEventListener("click", () => {
     WriteToDatabase();
     ReadInfoFromDatabase();
 });
-
 //Grabs all the data from the HTML table's input fields and writes them to the Realtime Database.
 function WriteToDatabase() {
     const table = document.getElementById("COAEditTable");
