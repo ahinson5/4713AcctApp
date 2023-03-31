@@ -1,21 +1,20 @@
 import {app} from "./firebaseinit";
-import {get, getDatabase, ref, child, set} from "firebase/database";               
+import {get, getDatabase, ref, child, set, onValue, update} from "firebase/database";               
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
 var saveDataButton = document.querySelector('#COASaveBtn');
-var btns = document.getElementsByClassName("isAcctActiveBtn");
 
 window.addEventListener('load', (event) => {
     ShowLoggedInUserInfo();
-    ReadInfoFromDatabase();
+    ReadCoaFromDB();
 });
 
 saveDataButton.addEventListener("click", () => {
-    WriteToDatabase();
-    ReadInfoFromDatabase();
+    WriteCoaToDB();
+    ReadCoaFromDB();
 });
 //Grabs all the data from the HTML table's input fields and writes them to the Realtime Database.
-function WriteToDatabase() {
+function WriteCoaToDB() {
     const table = document.getElementById("COAEditTable");
     const rows = table.getElementsByTagName("tr");
 
@@ -28,7 +27,19 @@ function WriteToDatabase() {
         }
 
         if (data && data.length != 0) {
-            set(ref(getDatabase(app), `COA/${data[0]}`), {
+
+            const dbRef = ref(getDatabase(app));
+            get(child(dbRef, `COA/Account${i}`)).then((snapshot) => {
+                if(snapshot.exists()){
+                    if(HasCOAChanged(snapshot, data)){
+                        EventLogUpdate(snapshot, data);
+                    }
+                } else{
+                    EventLogCreate(data);
+                }
+            });
+
+            set(ref(getDatabase(app), `COA/Account${i}`), {
                 No: data[0],
                 Title: data[1],
                 Type: data[2],
@@ -39,8 +50,39 @@ function WriteToDatabase() {
     }
 }
 
+function EventLogUpdate(snapshot, data){
+    var id = "id" + Math.random().toString(16).slice(2); //Generating unique id's. https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
+    const date = new Date();
+    set(ref(getDatabase(app), `COALogs/${id}`), {
+        Date: date.toLocaleString(),
+        User: sessionStorage.getItem("currentUser"),
+        Before: `${snapshot.val().No},${snapshot.val().Title}, ${snapshot.val().Type},${snapshot.val().ToIncrease}`,
+        After: `${data[0]},${data[1]},${data[2]},${data[3]}`
+    });
+}
+
+function EventLogCreate(data){
+    var id = "id" + Math.random().toString(16).slice(2); //Generating unique id's. https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
+    const date = new Date();
+    set(ref(getDatabase(app), `COALogs/${id}`), {
+        Date: date.toLocaleString(),
+        User: sessionStorage.getItem("currentUser"),
+        Before: `N/A`,
+        After: `${data[0]},${data[1]},${data[2]},${data[3]}`
+    });
+}
+
+function HasCOAChanged(snapshot, data){
+
+    if(snapshot.val().No != data[0] || snapshot.val().Title != data[1] || snapshot.val().Type != data[2] || snapshot.val().ToIncrease != data[3]){
+        return true;
+    } else{
+        return false;
+    }
+}
+
 //For each piece of data fetched from the Realtime Database, update the corresponding HTML table elements.
-function ReadInfoFromDatabase(){
+function ReadCoaFromDB(){
     const dbRef = ref(getDatabase(app));
     const table = document.getElementById("COAEditTable");
     const rows = table.getElementsByTagName("tr");

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="global.css">
+    </head>
+    <body>
+        <div class="left">
+            <img src="project_logo.png" width="150" height="150"><br>
+            <a href="./homepage-view.html"><button>Chart of Accounts</button></a><br>
+        </div>
+
+        <div class="center">
+            <h1>Event Log</h1>
+            <table id="COALogTable">
+                <tr>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Before</th>
+                    <th>After</th>
+                </tr>
+                <tr>
+                    <td>001</td>
+                    <td>Paid contractor</td>
+                    <td>Mar 7, 2023</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>Received royalty payment</td>
+                    <td>Mar 8, 2023</td>
+                    <td>700</td>
+                </tr>
+                <tr>
+                    <td>003</td>
+                    <td>Bought equipment</td>
+                    <td>Mar 21, 2023</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        <div class="right">
+            <img src="default_user.png" width="100" height="87" style="float: right;"><br>
+            <label class="usernameProfileLabel" style="float: right"></label><br>
+            <a href="./index.html">
+                <button id="logoutButton" style="margin-top: 1rem;">Logout</button>
+            </a>
+        </div>
+        <script src="./dist/eventLog.bundle.js"></script>
+    </body>
+</html>

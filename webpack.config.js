@@ -10,7 +10,8 @@ module.exports = {
         homepageView: "./public/homepage-view.js",
         homepageEdit: "./public/homepage-edit.js",
         accountView: "./public/account-view.js",
-        accountEdit: "./public/account-edit.js"
+        accountEdit: "./public/account-edit.js",
+        eventLog: "./public/eventlog.js"
     },
     mode: "development",
     devtool: "eval-source-map",
