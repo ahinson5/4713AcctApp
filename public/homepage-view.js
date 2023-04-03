@@ -1,6 +1,6 @@
 import {app} from "./firebaseinit";
 import {get, getDatabase, ref, child, set} from "firebase/database";               
-import { ShowLoggedInUserInfo } from "./MyUtil";
+import { ShowLoggedInUserInfo, CheckRole } from "./MyUtil";
 
 window.addEventListener('load', (event) => {
     ShowLoggedInUserInfo();
@@ -15,17 +15,6 @@ accountAnchors.forEach(element => {
         ParseAnchor(element);
     })
 });
-
-function CheckRole(classNameTohide){
-    const dbRef = ref(getDatabase(app));
-
-    get(child(dbRef, `users/${sessionStorage.getItem("currentUser")}`)).then((snapshot) => {
-        if(snapshot.val().userRole == "Administrator" || snapshot.val().userRole == "Manager"){
-            var edtBtn = document.querySelector(`.${classNameTohide}`);
-            edtBtn.classList.remove("hidden");
-        }
-    });
-}
 
 //Store the account title's link you clicked and navigate to the ledger HTML page.
 function ParseAnchor(element){

@@ -9,6 +9,10 @@
     display: none;
 }
 
+td {
+    white-space: pre;
+}
+
 .right {
     float: right;
 }

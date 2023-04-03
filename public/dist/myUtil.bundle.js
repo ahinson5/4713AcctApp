@@ -40,16 +40,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./public/account-view.js":
-/*!********************************!*\
-  !*** ./public/account-view.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _firebaseinit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./firebaseinit */ \"./public/firebaseinit.js\");\n/* harmony import */ var firebase_database__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! firebase/database */ \"./node_modules/firebase/database/dist/esm/index.esm.js\");\n/* harmony import */ var _MyUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MyUtil */ \"./public/MyUtil.js\");\n\r\n           \r\n\r\n\r\nwindow.addEventListener(\"load\", () => {\r\n    //Updates the title based on which account the user navigated from.\r\n    document.querySelector(\"#accountViewHeader\").innerHTML = window.sessionStorage.getItem(\"accountAnchorName\") + \" Ledger\";\r\n    CheckRole(\"accountEditBtn\");\r\n    (0,_MyUtil__WEBPACK_IMPORTED_MODULE_2__.ShowLoggedInUserInfo)();\r\n})\r\n\r\nfunction CheckRole(classNameTohide){\r\n    const dbRef = (0,firebase_database__WEBPACK_IMPORTED_MODULE_1__.ref)((0,firebase_database__WEBPACK_IMPORTED_MODULE_1__.getDatabase)(_firebaseinit__WEBPACK_IMPORTED_MODULE_0__.app));\r\n\r\n    (0,firebase_database__WEBPACK_IMPORTED_MODULE_1__.get)((0,firebase_database__WEBPACK_IMPORTED_MODULE_1__.child)(dbRef, `users/${sessionStorage.getItem(\"currentUser\")}`)).then((snapshot) => {\r\n        if(snapshot.val().userRole == \"Administrator\" || snapshot.val().userRole == \"Manager\"){\r\n            var edtBtn = document.querySelector(`.${classNameTohide}`);\r\n            edtBtn.classList.remove(\"hidden\");\r\n        }\r\n    });\r\n}\r\n\r\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9wdWJsaWMvYWNjb3VudC12aWV3LmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7QUFBbUM7QUFDNEI7QUFDZjtBQUNoRDtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0EsSUFBSSw2REFBb0I7QUFDeEIsQ0FBQztBQUNEO0FBQ0E7QUFDQSxrQkFBa0Isc0RBQUcsQ0FBQyw4REFBVyxDQUFDLDhDQUFHO0FBQ3JDO0FBQ0EsSUFBSSxzREFBRyxDQUFDLHdEQUFLLGlCQUFpQixzQ0FBc0M7QUFDcEU7QUFDQSxvREFBb0QsZ0JBQWdCO0FBQ3BFO0FBQ0E7QUFDQSxLQUFLO0FBQ0w7QUFDQSIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL3B1YmxpYy9hY2NvdW50LXZpZXcuanM/NTA0NSJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQge2FwcH0gZnJvbSBcIi4vZmlyZWJhc2Vpbml0XCI7XHJcbmltcG9ydCB7Z2V0LCBnZXREYXRhYmFzZSwgcmVmLCBjaGlsZH0gZnJvbSBcImZpcmViYXNlL2RhdGFiYXNlXCI7ICAgICAgICAgICBcclxuaW1wb3J0IHsgU2hvd0xvZ2dlZEluVXNlckluZm8gfSBmcm9tIFwiLi9NeVV0aWxcIjtcclxuXHJcbndpbmRvdy5hZGRFdmVudExpc3RlbmVyKFwibG9hZFwiLCAoKSA9PiB7XHJcbiAgICAvL1VwZGF0ZXMgdGhlIHRpdGxlIGJhc2VkIG9uIHdoaWNoIGFjY291bnQgdGhlIHVzZXIgbmF2aWdhdGVkIGZyb20uXHJcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiI2FjY291bnRWaWV3SGVhZGVyXCIpLmlubmVySFRNTCA9IHdpbmRvdy5zZXNzaW9uU3RvcmFnZS5nZXRJdGVtKFwiYWNjb3VudEFuY2hvck5hbWVcIikgKyBcIiBMZWRnZXJcIjtcclxuICAgIENoZWNrUm9sZShcImFjY291bnRFZGl0QnRuXCIpO1xyXG4gICAgU2hvd0xvZ2dlZEluVXNlckluZm8oKTtcclxufSlcclxuXHJcbmZ1bmN0aW9uIENoZWNrUm9sZShjbGFzc05hbWVUb2hpZGUpe1xyXG4gICAgY29uc3QgZGJSZWYgPSByZWYoZ2V0RGF0YWJhc2UoYXBwKSk7XHJcblxyXG4gICAgZ2V0KGNoaWxkKGRiUmVmLCBgdXNlcnMvJHtzZXNzaW9uU3RvcmFnZS5nZXRJdGVtKFwiY3VycmVudFVzZXJcIil9YCkpLnRoZW4oKHNuYXBzaG90KSA9PiB7XHJcbiAgICAgICAgaWYoc25hcHNob3QudmFsKCkudXNlclJvbGUgPT0gXCJBZG1pbmlzdHJhdG9yXCIgfHwgc25hcHNob3QudmFsKCkudXNlclJvbGUgPT0gXCJNYW5hZ2VyXCIpe1xyXG4gICAgICAgICAgICB2YXIgZWR0QnRuID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihgLiR7Y2xhc3NOYW1lVG9oaWRlfWApO1xyXG4gICAgICAgICAgICBlZHRCdG4uY2xhc3NMaXN0LnJlbW92ZShcImhpZGRlblwiKTtcclxuICAgICAgICB9XHJcbiAgICB9KTtcclxufVxyXG5cclxuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./public/account-view.js\n");
-
-/***/ }),
-
 /***/ "./public/firebaseinit.js":
 /*!********************************!*\
   !*** ./public/firebaseinit.js ***!
@@ -202,7 +192,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval-source-map devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./public/account-view.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./public/MyUtil.js");
 /******/ 	
 /******/ })()
 ;

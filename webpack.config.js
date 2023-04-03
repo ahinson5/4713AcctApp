@@ -11,7 +11,10 @@ module.exports = {
         homepageEdit: "./public/homepage-edit.js",
         accountView: "./public/account-view.js",
         accountEdit: "./public/account-edit.js",
-        eventLog: "./public/eventlog.js"
+        eventLog: "./public/eventlog.js",
+        myUtil: "./public/MyUtil.js",
+        generalJournalView: "./public/generaljournal-view.js",
+        generalJournalEdit: "./public/generaljournal-edit.js"
     },
     mode: "development",
     devtool: "eval-source-map",
