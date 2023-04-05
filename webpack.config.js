@@ -10,7 +10,6 @@ module.exports = {
         homepageView: "./public/homepage-view.js",
         homepageEdit: "./public/homepage-edit.js",
         accountView: "./public/account-view.js",
-        accountEdit: "./public/account-edit.js",
         eventLog: "./public/eventlog.js",
         myUtil: "./public/MyUtil.js",
         generalJournalView: "./public/generaljournal-view.js",

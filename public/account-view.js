@@ -2,21 +2,71 @@ import {app} from "./firebaseinit";
 import {get, getDatabase, ref, child} from "firebase/database";           
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
+var acctName = "";
+
 window.addEventListener("load", () => {
     //Updates the title based on which account the user navigated from.
-    document.querySelector("#accountViewHeader").innerHTML = window.sessionStorage.getItem("accountAnchorName") + " Ledger";
-    CheckRole("accountEditBtn");
-    ShowLoggedInUserInfo();
-})
+    var storage = window.sessionStorage.getItem("accountAnchorName");
 
-function CheckRole(classNameTohide){
+    acctName = storage;
     const dbRef = ref(getDatabase(app));
+    get(child(dbRef, `COA`)).then((snapshot) => {
 
-    get(child(dbRef, `users/${sessionStorage.getItem("currentUser")}`)).then((snapshot) => {
-        if(snapshot.val().userRole == "Administrator" || snapshot.val().userRole == "Manager"){
-            var edtBtn = document.querySelector(`.${classNameTohide}`);
-            edtBtn.classList.remove("hidden");
-        }
+        snapshot.forEach((child) => {
+            if(child.val().No == storage){
+                acctName = child.val().Title;
+            }
+        });
+        document.querySelector("#accountViewHeader").innerHTML =  acctName + " Ledger";
+        ReadTableFromDatabase();
+        DisplayBalance();
+    });
+    ShowLoggedInUserInfo();
+});
+
+//Listen to the account title's click event.
+var accountAnchors = document.querySelectorAll(".ledgerPostRef");
+accountAnchors.forEach(element => {
+    element.addEventListener("click", () => {
+        window.location = "./generaljournal-view.html";
+    })
+});
+
+function DisplayBalance(){
+    const dbRef = ref(getDatabase(app));
+    const table = document.getElementById("ledgerTable");
+    const rows = table.getElementsByTagName("tr");
+    get(child(dbRef, `MyLedger/${acctName}`)).then((snapshot) => {
+        var total = 0;
+        var i = 1;
+        snapshot.forEach((child) => {
+            const cols = rows[i].getElementsByTagName("td");
+            total += (cols[2].textContent - cols[3].textContent);
+            i++;
+        });
+        document.querySelector("#ledgerBalanceHeader").textContent = "Balance: " + total;
     });
 }
 
+//For each piece of data fetched form the DB, update the HTML table values.
+function ReadTableFromDatabase(){
+    const dbRef = ref(getDatabase(app));
+    const table = document.getElementById("ledgerTable");
+    const rows = table.getElementsByTagName("tr");
+
+    get(child(dbRef, `MyLedger/${acctName}`)).then((snapshot) => {
+
+        var i = 1;
+        snapshot.forEach((child) => {
+            const cols = rows[i].getElementsByTagName("td");
+            for(var j = 0; j < cols.length - 1; j++){
+                cols[0].textContent = child.val().Date;
+                cols[1].textContent = child.val().Description;
+                cols[2].textContent = child.val().Debits;
+                cols[3].textContent = child.val().Credits;
+                cols[4].getElementsByTagName("a")[0].innerHTML = child.val().PostRef;
+            }
+            i++;
+        });
+    });
+}
