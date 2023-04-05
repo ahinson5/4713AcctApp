@@ -1,9 +1,13 @@
 import {app} from "./firebaseinit"
 import { getDatabase, ref, child, get } from "firebase/database";
 
+//this var bridges currrent user accross pages
+var currentUser;
+
 export function ShowLoggedInUserInfo(){
     var uLabel = document.querySelector(".usernameProfileLabel");
-    uLabel.textContent = sessionStorage.getItem("currentUser");
+    currentUser = sessionStorage.getItem("currentUser");
+    uLabel.textContent = currentUser;
 }
 
 export function CheckRole(classNameTohide){

@@ -14,7 +14,8 @@ module.exports = {
         eventLog: "./public/eventlog.js",
         myUtil: "./public/MyUtil.js",
         generalJournalView: "./public/generaljournal-view.js",
-        generalJournalEdit: "./public/generaljournal-edit.js"
+        generalJournalEdit: "./public/generaljournal-edit.js",
+        entryApproval: "./public/entryApproval.js"
     },
     mode: "development",
     devtool: "eval-source-map",

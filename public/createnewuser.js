@@ -32,5 +32,5 @@ function SubmitForm() {
         userDOB: DOB.value,
         userPW: pword.value,
         userRole: "accountant"
-    }).then(() => window.location.href = "/index.html");;
+    }).then(() => window.location.href = "/index.html");
 };

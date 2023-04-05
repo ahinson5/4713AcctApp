@@ -27,16 +27,6 @@ function ReadTableFromDatabase(){
             }
             i++;
         });
-
-        //Change the button color according to the IsActive value stored in the database.
-        var j = 1;
-        snapshot.forEach((child) => {
-            const buttons = rows[j].getElementsByTagName("button");
-            buttons[0].style.background = child.val().IsActive ? "#748B75" : "#B76D68";
-            buttons[0].textContent = child.val().IsActive ? "Approved" : "Not Approved";
-            j++;
-        });
-
     });
 }
 

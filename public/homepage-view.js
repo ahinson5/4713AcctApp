@@ -5,6 +5,7 @@ import { ShowLoggedInUserInfo, CheckRole } from "./MyUtil";
 window.addEventListener('load', (event) => {
     ShowLoggedInUserInfo();
     CheckRole("homepageEditBtn");
+    CheckRole("entryApprovalBtn");
     ReadTableFromDatabase();
 });
 
@@ -23,12 +24,14 @@ function ParseAnchor(element){
 }
 
 //For each piece of data fetched form the DB, update the HTML table values.
-function ReadTableFromDatabase(){
-    const dbRef = ref(getDatabase(app));
+function getPendingEntries() {
+
+    //while (x = 0; x<3; x++)
+    const db = ref(getDatabase(app));
     const table = document.getElementById("COAViewTable");
     const rows = table.getElementsByTagName("tr");
 
-    get(child(dbRef, `COA`)).then((snapshot) => {
+    get(child(db, `COA`)).then((snapshot) => {
 
         var i = 1;
         snapshot.forEach((child) => {
@@ -41,15 +44,5 @@ function ReadTableFromDatabase(){
             }
             i++;
         });
-
-        //Change the button color according to the IsActive value stored in the database.
-        var j = 1;
-        snapshot.forEach((child) => {
-            const buttons = rows[j].getElementsByTagName("button");
-            buttons[0].style.background = child.val().IsActive ? "#748B75" : "#B76D68";
-            buttons[0].textContent = child.val().IsActive ? "Active" : "Inactive";
-            j++;
-        });
-
     });
 }
