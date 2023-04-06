@@ -7,7 +7,6 @@ var saveDataButton = document.querySelector('#GeneralJournalSaveBtn');
 window.addEventListener("load", () => {
     ShowLoggedInUserInfo();
     ReadCoaFromDB();
-    asyncCall();
 });
 
 saveDataButton.addEventListener("click", () => {
@@ -15,25 +14,8 @@ saveDataButton.addEventListener("click", () => {
     ReadCoaFromDB();
 });
 
-function resolveAfter2Seconds() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve('resolved');
-      }, 2000);
-    });
-  }
-  
-  async function asyncCall() {
-    console.log('calling');
-    const result = await resolveAfter2Seconds();
-    console.log(result);
-    // Expected output: "resolved"
-  }
-
-  
-
 //Grabs all the data from the HTML table's input fields and writes them to the Realtime Database.
-function WriteCoaToDB() {
+async function WriteCoaToDB() {
     const table = document.getElementById("GeneralJournalTable");
     const rows = table.getElementsByTagName("tr");
     const dbRef = ref(getDatabase(app));
@@ -48,27 +30,27 @@ function WriteCoaToDB() {
 
         if (data && data.length != 0) {
             var nameArr = data[1].split(",");
-            get(child(dbRef, `COA`)).then((snapshot) => {
-                var postRefNo = "";
-                for(var j = 0; j < nameArr.length; j++){
-                    snapshot.forEach((child) => {
-                        if (child.val().Title === nameArr[j]) {
-                            postRefNo += child.val().No;
-                            if (j < nameArr.length - 1) {
-                                postRefNo += ",";
-                            }
+
+            const snapshot = await get(child(dbRef, `COA`));
+            var postRefNo = "";
+
+            for (var j = 0; j < nameArr.length; j++) {
+                snapshot.forEach((child) => {
+                    if (child.val().Title === nameArr[j]) {
+                        postRefNo += child.val().No;
+                        if (j < nameArr.length - 1) {
+                            postRefNo += ",";
                         }
-                    });
-                }
-                console.log(postRefNo);
-                set(ref(getDatabase(app), `MyJournal/Entry${i}`), {
-                    Date: data[0],
-                    Accounts: data[1],
-                    Debits: data[2],
-                    Credits: data[3],
-                    PostRef: postRefNo,
-                    Approved: "Pending"
-                })
+                    }
+                });
+            }
+            set(ref(getDatabase(app), `MyJournal/Entry${i}`), {
+                Date: data[0],
+                Accounts: data[1],
+                Debits: data[2],
+                Credits: data[3],
+                PostRef: postRefNo,
+                Approved: "Pending"
             });
         }
     }
@@ -91,7 +73,7 @@ function ReadCoaFromDB() {
             inputs[1].value = child.val().Accounts;
             inputs[2].value = child.val().Debits;
             inputs[3].value = child.val().Credits;
-            if(child.val().Approved === "Approved"){
+            if (child.val().Approved === "Approved") {
                 data[4].textContent = child.val().PostRef;
             }
             i++;
