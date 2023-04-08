@@ -1,14 +1,12 @@
-import { ShowLoggedInUserInfo } from "./MyUtil";
-import {app} from "./firebaseinit";
-import {ref, getDatabase, set, get, child} from "firebase/database"
+import { ShowLoggedInUserInfo, ParseCSV } from "./MyUtil";
+import { app } from "./firebaseinit";
+import { ref, getDatabase, set, get, child } from "firebase/database"
 
 var saveDataButton = document.querySelector('#GeneralJournalSaveBtn');
 
 window.addEventListener("load", () => {
-
     ShowLoggedInUserInfo();
     ReadCoaFromDB();
-
 });
 
 saveDataButton.addEventListener("click", () => {
@@ -17,9 +15,10 @@ saveDataButton.addEventListener("click", () => {
 });
 
 //Grabs all the data from the HTML table's input fields and writes them to the Realtime Database.
-function WriteCoaToDB() {
+async function WriteCoaToDB() {
     const table = document.getElementById("GeneralJournalTable");
     const rows = table.getElementsByTagName("tr");
+    const dbRef = ref(getDatabase(app));
 
     for (var i = 1; i < rows.length; i++) {
         const inputs = rows[i].getElementsByTagName("input");
@@ -30,42 +29,73 @@ function WriteCoaToDB() {
         }
 
         if (data && data.length != 0) {
-            set(ref(getDatabase(app), `Journal/Entry${i}`), {
+            var nameArr = data[1].split(",");
+
+            const snapshot = await get(child(dbRef, `COA`));
+            var postRefNo = "";
+
+            for (var j = 0; j < nameArr.length; j++) {
+                snapshot.forEach((child) => {
+                    if (child.val().Title === nameArr[j]) {
+                        postRefNo += child.val().No;
+                        if (j < nameArr.length - 1) {
+                            postRefNo += ",";
+                        }
+                    }
+                });
+            }
+            set(ref(getDatabase(app), `MyJournal/Entry${i}`), {
                 Date: data[0],
                 Accounts: data[1],
-                PostRef: data[2],
-                Debits: data[3],
-                Credits: data[4],
-                Approved: false
+                Debits: data[2],
+                Credits: data[3],
+                PostRef: postRefNo,
+                Approved: "Pending"
             });
         }
     }
 }
 
 //For each piece of data fetched from the Realtime Database, update the corresponding HTML table elements.
-function ReadCoaFromDB(){
+function ReadCoaFromDB() {
     const dbRef = ref(getDatabase(app));
     const table = document.getElementById("GeneralJournalTable");
     const rows = table.getElementsByTagName("tr");
 
-    get(child(dbRef, `Journal`)).then((snapshot) => {
+    get(child(dbRef, `MyJournal`)).then((snapshot) => {
 
         var i = 1;
         snapshot.forEach((child) => {
             const inputs = rows[i].getElementsByTagName("input");
+            const data = rows[i].getElementsByTagName("td");
+
             inputs[0].value = child.val().Date;
             inputs[1].value = child.val().Accounts;
-            inputs[2].value = child.val().PostRef;
-            inputs[3].value = child.val().Debits;
-            inputs[4].value = child.val().Credits;
+            inputs[2].value = child.val().Debits;
+            inputs[3].value = child.val().Credits;
+            if (child.val().Approved === "Approved") {
+                data[4].textContent = child.val().PostRef;
+            }
             i++;
         });
 
         var j = 1;
         snapshot.forEach((child) => {
             const buttons = rows[j].getElementsByTagName("button");
-            buttons[0].style.background = child.val().Approved ? "#748B75" : "#B76D68";
-            buttons[0].textContent = child.val().Approved ? "Approved" : "Not Approved";
+            var color = "";
+            var status = "";
+            if (child.val().Approved === "Pending") {
+                color = "#b7af68";
+                status = "Pending";
+            } else if (child.val().Approved === "Approved") {
+                color = "#748B75";
+                status = "Approved";
+            } else {
+                color = "#B76D68";
+                status = "Not Approved";
+            }
+            buttons[0].style.background = color;
+            buttons[0].textContent = status;
             j++;
         });
 

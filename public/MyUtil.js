@@ -20,3 +20,18 @@ export function CheckRole(classNameTohide){
         }
     });
 }
+
+//Format the csv inputs from the DB, adding an indentation and newline accordingly.
+export function ParseCSV(inputString){
+    const stringArr = inputString.split(",");
+    var formattedString = "";
+    for(var i = 0; i < stringArr.length; i++){
+        var newLine = "";
+        if(i < stringArr.length - 1){
+            newLine += "\n\t";
+        }
+        formattedString += stringArr[i] + newLine;
+    }
+
+    return formattedString;
+}
