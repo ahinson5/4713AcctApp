@@ -3,7 +3,14 @@ WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (fil
 WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
+<<<<<<< Updated upstream
 10:59:02.607 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
 10:59:03.002 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
 10:59:41.729 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO com.firebase.core.namespace.NamespaceActor - swe-4713-applications-domain-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 370ms, init: 0ms
 10:59:41.925 [NamespaceSystem-blocking-namespace-operation-dispatcher-7] INFO com.firebase.core.namespace.StateManager - Namespace swe-4713-applications-domain-default-rtdb status Active to Active
+=======
+11:14:31.701 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+11:14:34.981 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+11:15:48.267 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - swe-4713-applications-domain-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 572ms, init: 0ms
+11:15:48.559 [NamespaceSystem-blocking-namespace-operation-dispatcher-9] INFO com.firebase.core.namespace.StateManager - Namespace swe-4713-applications-domain-default-rtdb status Active to Active
+>>>>>>> Stashed changes
