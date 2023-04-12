@@ -21,6 +21,7 @@ async function WriteCoaToDB() {
     const dbRef = ref(getDatabase(app));
 
     for (var i = 1; i < rows.length; i++) {
+        console.log = i;
         const inputs = rows[i].getElementsByTagName("input");
 
         const data = [];

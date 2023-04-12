@@ -70,9 +70,9 @@ function getNextEntry(){
     });
 };
 
-function setApprove() {
+async function setApprove() {
     if (entryArray[arrayIt] != null) {
-        set(ref(db, 'Journal' + entryArray[arrayIt]), {
+        await set(ref(db, 'Journal' + entryArray[arrayIt]), {
             Approved: 'Approved'
         });
         arrayIt++;
@@ -81,9 +81,9 @@ function setApprove() {
     }
 };
 
-function setDenied() {
+async function setDenied() {
     if (entryArray[arrayIt] != null) {
-        set(ref(db, 'Journal' + entryArray[arrayIt]), {
+        await set(ref(db, 'Journal' + entryArray[arrayIt]), {
             Approved: 'Denied'
         });
         arrayIt++;
@@ -102,7 +102,6 @@ function ParseCSV(inputString) {
         }
         formattedString += stringArr[i] + newLine;
     }
-
     return formattedString;
 }
 
