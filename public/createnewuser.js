@@ -24,26 +24,13 @@ const db = getDatabase(app);
 form.addEventListener("submit", SubmitForm);
 
 //set adds user information to db
-<<<<<<< Updated upstream
 async function SubmitForm() {
     pCheck1 = 0;
     pCheck2 = 0;
     var pword = password.value;
     console.log(pword.charAt(0));
-=======
-function SubmitForm() {
-    var scRegx = /[!@#$%]/;
-    var dgRegx = /[0-9]/;
-    var anRegx = /[a-z]/;
-    var passwordCheck;
-    var scCheck;
-    var dgCheck;
-    var fullname = lName.value + " " + fName.value;
-    console.log(fullname);
->>>>>>> Stashed changes
     //username formatting
     console.log(username);
-<<<<<<< Updated upstream
     console.log(pword)
     if (pword.length > 7 && alphaReg.test(pword.charAt(0))) {
         //length = 8 or greater AND it contains one letter
@@ -81,30 +68,5 @@ function SubmitForm() {
         console.log(pCheck2);
         password.value = '';
         password.placeholder = 'Incorrect password format';
-=======
-    if (pword.length > 7 && pword.charAt(0).toLowerCase().match(aRegx)){
-        for (x = 0; x < pword.length - 1; x++) {
-            if (scRegx.test(pword.charAt(x))) {
-                scCheck = true;
-            }
-            if (dgRegx.test(pword.charAt(x))) {
-                dgCheck = true;
-            }
-        }
-        if (scCheck == true && dgCheck == true) {
-            passwordCheck = true;
-        }
-    }
-    if (passwordCheck == true) {
-        set(ref(db, 'users/' + username), {
-            userName: fullname,
-            userAddress: address.value,
-            userDOB: DOB.value,
-            userPW: pword.value,
-            userRole: "accountant"
-        }).then(() => window.location.href = "/index.html");
-    } else {
-        label = "Password does not meet requirements";
->>>>>>> Stashed changes
     }
 };
