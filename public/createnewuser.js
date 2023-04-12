@@ -15,9 +15,8 @@ var digReg = /[0-9]/;
 var scReg = /[!@#$%^&*()]/;
 var pCheck1;
 var pCheck2;
-var fullname = lName.value + " " + fName.value;
-var username = fName.value[0];
-username += lName.value;
+
+
 
 //listener and firebase db ref
 const db = getDatabase(app);
@@ -25,6 +24,11 @@ form.addEventListener("submit", SubmitForm);
 
 //set adds user information to db
 async function SubmitForm() {
+
+    var fullname = lName.value + " " + fName.value;
+    var username = fName.value[0];
+    username += lName.value;
+
     pCheck1 = 0;
     pCheck2 = 0;
     var pword = password.value;

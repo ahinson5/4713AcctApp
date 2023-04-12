@@ -1,6 +1,6 @@
 import {app} from "./firebaseinit";
 import {get, getDatabase, ref, child, set, onValue, update} from "firebase/database";               
-import { ShowLoggedInUserInfo } from "./MyUtil";
+import { ShowLoggedInUserInfo, GetUniqueID } from "./MyUtil";
 
 var saveDataButton = document.querySelector('#COASaveBtn');
 
@@ -51,7 +51,7 @@ function WriteCoaToDB() {
 }
 
 function EventLogUpdate(snapshot, data){
-    var id = "id" + Math.random().toString(16).slice(2); //Generating unique id's. https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
+    var id = GetUniqueID();
     const date = new Date();
     set(ref(getDatabase(app), `COALogs/${id}`), {
         Date: date.toLocaleString(),
@@ -62,7 +62,7 @@ function EventLogUpdate(snapshot, data){
 }
 
 function EventLogCreate(data){
-    var id = "id" + Math.random().toString(16).slice(2); //Generating unique id's. https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
+    var id = GetUniqueID();
     const date = new Date();
     set(ref(getDatabase(app), `COALogs/${id}`), {
         Date: date.toLocaleString(),

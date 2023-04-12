@@ -35,3 +35,7 @@ export function ParseCSV(inputString){
 
     return formattedString;
 }
+
+export function GetUniqueID(){
+    return "id" + Math.random().toString(16).slice(2); //Generating unique id's. https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
+}

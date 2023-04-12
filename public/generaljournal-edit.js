@@ -1,4 +1,4 @@
-import { ShowLoggedInUserInfo, ParseCSV } from "./MyUtil";
+import { ShowLoggedInUserInfo, ParseCSV, GetUniqueID } from "./MyUtil";
 import { app } from "./firebaseinit";
 import { ref, getDatabase, set, get, child } from "firebase/database"
 
@@ -25,9 +25,20 @@ function ValidateDebitsAndCredits(dcsv, ccsv, rowNum){
         errorLabel.textContent = "";
         return true;
     } else{
-        errorLabel.textContent = `Error! Entry on row ${rowNum} rejected. Debits and credits MUST match.`;
+        const message = `Error! Entry on row ${rowNum} rejected. Debits and credits MUST match.`;
+        PostErrorLogToDB(message);
+        errorLabel.textContent = message;
         return false;
     }
+}
+
+async function PostErrorLogToDB(message){
+    const date = new Date();
+    set(ref(getDatabase(app), `ErrorLogs/${GetUniqueID()}`), {
+        Date: date.toLocaleString(),
+        User: sessionStorage.getItem("currentUser"),
+        Message: message
+    });
 }
 
 function ValidateAccountName(count, rowNum){
@@ -35,9 +46,20 @@ function ValidateAccountName(count, rowNum){
         errorLabel.textContent = "";
         return true;
     } else{
-        errorLabel.textContent = `Error! Entry on row ${rowNum} rejected. One of the entered accounts does not exist. Double check your spelling.`;
+        const message = `Error! Entry on row ${rowNum} rejected. One of the entered accounts does not exist. Double check your spelling.`;
+        PostErrorLogToDB(message);
+        errorLabel.textContent = message;
         return false;
     }
+}
+
+function IsInputArrayBlank(arr){
+    for(var i  = 0; i < arr.length; i++){
+        if(arr[i] != ""){
+            return false;
+        }
+    }
+    return true;
 }
 
 //Grabs all the data from the HTML table's input fields and writes them to the Realtime Database.
@@ -52,11 +74,11 @@ async function WriteCoaToDB() {
 
         const data = [];
         for (const input of inputs) {
-            if (input.value) data.push(input.value);
+            data.push(input.value);
         }
-        if (data && data.length != 0) {
+        if (!IsInputArrayBlank(data)) {
 
-            if(!ValidateDebitsAndCredits(data[2], data[3], i)){
+            if(!ValidateDebitsAndCredits(data[3], data[4], i)){
                 return;
             }
             var nameArr = data[1].split(",");
@@ -81,8 +103,9 @@ async function WriteCoaToDB() {
             set(ref(getDatabase(app), `MyJournal/Entry${i}`), {
                 Date: data[0],
                 Accounts: data[1],
-                Debits: data[2],
-                Credits: data[3],
+                Description: data[2],
+                Debits: data[3],
+                Credits: data[4],
                 PostRef: postRefNo,
                 Approved: "Pending"
             });
@@ -105,8 +128,8 @@ function ReadCoaFromDB() {
 
             inputs[0].value = child.val().Date;
             inputs[1].value = child.val().Accounts;
-            inputs[2].value = child.val().Debits;
-            inputs[3].value = child.val().Credits;
+            inputs[3].value = child.val().Debits;
+            inputs[4].value = child.val().Credits;
             if (child.val().Approved === "Approved") {
                 data[4].textContent = child.val().PostRef;
             }

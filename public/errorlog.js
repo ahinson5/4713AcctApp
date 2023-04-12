@@ -1,18 +1,17 @@
+import { getDatabase, child, ref, get } from "firebase/database";
 import { ShowLoggedInUserInfo } from "./MyUtil";
 import { app } from "./firebaseinit";
-import { get, getDatabase, ref, child } from "firebase/database"
 
-window.addEventListener("load", () => {
+window.addEventListener("load", () =>{
     ShowLoggedInUserInfo();
+
     const dbRef = ref(getDatabase(app));
-
-    get(child(dbRef, `COALogs`)).then((snapshot) => {
-        ReadCoaLogFromDB(snapshot);
-    });
-
+    get(child(dbRef, `ErrorLogs`)).then((snapshot) => {
+        ReadErrorLogFromDB(snapshot);
+    })
 });
 
-function ReadCoaLogFromDB(snapshot){
+function ReadErrorLogFromDB(snapshot){
     const children = [];
     snapshot.forEach((child) => {
         children.push(child.val());
@@ -24,7 +23,7 @@ function ReadCoaLogFromDB(snapshot){
         return new Date(b.Date) - new Date(a.Date);
     });
 
-    const table = document.getElementById("COALogTable");
+    const table = document.getElementById("ErrorLogTable");
     const rows = table.getElementsByTagName("tr");
 
     var j = 0;
@@ -33,8 +32,7 @@ function ReadCoaLogFromDB(snapshot){
         if(!children[j]) continue;
         cols[0].textContent = children[j].Date;
         cols[1].textContent = children[j].User;
-        cols[2].textContent = children[j].Before;
-        cols[3].textContent = children[j].After;
+        cols[2].textContent = children[j].Message;
         j++;
     }
 }

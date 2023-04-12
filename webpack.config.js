@@ -14,7 +14,8 @@ module.exports = {
         myUtil: "./public/MyUtil.js",
         generalJournalView: "./public/generaljournal-view.js",
         generalJournalEdit: "./public/generaljournal-edit.js",
-        entryApproval: "./public/entryApproval.js"
+        entryApproval: "./public/entryApproval.js",
+        errorLog: "./public/errorlog.js"
     },
     mode: "development",
     devtool: "eval-source-map",

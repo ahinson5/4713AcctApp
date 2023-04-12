@@ -35,11 +35,12 @@ function ReadTableFromDatabase(){
             for(var j = 0; j < cols.length - 1; j++){
                 cols[0].textContent = child.val().Date;
                 cols[1].textContent = ParseCSV(child.val().Accounts);
-                cols[2].textContent = ParseCSV(child.val().Debits);
-                cols[3].textContent = ParseCSV(child.val().Credits);
+                cols[2].textContent = child.val().Description;
+                cols[3].textContent = ParseCSV(child.val().Debits);
+                cols[4].textContent = ParseCSV(child.val().Credits);
                 if(child.val().Approved === "Approved"){
-                    cols[4].getElementsByTagName("a")[0].textContent = child.val().PostRef.split(",")[0];
-                    cols[4].getElementsByTagName("a")[1].textContent = child.val().PostRef.split(",")[1];
+                    cols[5].getElementsByTagName("a")[0].textContent = child.val().PostRef.split(",")[0];
+                    cols[5].getElementsByTagName("a")[1].textContent = child.val().PostRef.split(",")[1];
                 }
             }
             i++;
