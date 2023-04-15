@@ -5,66 +5,80 @@ import { ShowLoggedInUserInfo } from "./MyUtil";
 
 const entryTable = document.getElementById("entryDisplay");
 const rows = entryTable.getElementsByTagName("tr");
-var form = document.querySelector("#buttons")
-//var getEntryBtn = document.querySelector("#getNewEntryBTN");
-var approveBtn = document.querySelector("#approve");
-var denyBtn = document.querySelector("#deny");
-var entryQ = 0;
+const getEntryBtn = document.getElementById("getEntryBtn");
+const approveBtn = document.getElementById("approveBtn");
+const denyBtn = document.getElementById("denyBtn");
+const backBtn = document.getElementById("backBtn");
 var arrayIt = 0;
 var displayIt = 0;
-var cStore;
 const entryArray = [];
 const db = getDatabase(app);
 const dbRef = ref(db)
-form.addEventListener("submit", getNextEntry);
-form.addEventListener("submit", displayToTable);
+
 window.addEventListener('load', (event) => {
+    console.log("window load")
     ShowLoggedInUserInfo();
-    getNextEntry();
-    displayToTable();
+    getEntries();
+    //displayToTable();
 });
-/*
-getEntryBtn.addEventListener('onclick', (event) => {
-    getNextEntry();
-    displayToTable();
-});*/
-approveBtn.addEventListener('onclick', (event) => {
+
+approveBtn.addEventListener("click", (event) => {
+    console.log("approveButton");
     setApprove();
 });
-denyBtn.addEventListener('onclick', (event) => {
+denyBtn.addEventListener("click", (event) => {
+    console.log("denyButton")
     setDenied();
 });
 
 function displayToTable() {
-    get(child(dbRef, `Journal` + entryArray[arrayIt])).then((snapshot) => {
-        var i = 1;
-        cStore = snapshot;
-        console.log("DTT1")
-        cStore.forEach((child) => {
-            const cols = rows[i].getElementsByTagName("td");
-            for (var j = 0; j < cols.length - 1; j++) {
-                cols[0].textContent = child.val().Date;
-                cols[1].textContent = ParseCSV(child.val().Accounts);
-                cols[2].getElementsByTagName("a")[0].textContent = child.val().PostRef;
-                cols[3].textContent = ParseCSV(child.val().Debits);
-                cols[4].textContent = ParseCSV(child.val().Credits);
-            }
-            i++;
-        });
-    });
+    console.log("displayToTable func entered");
+    const table = document.getElementById("entryDisplay");
+    let size = entryArray.length;
+    const loadArray = [];
+    if (entryArray.length != 0) {//if array of children is not empty
+        //date, item, post ref.,debit ,credit, account no
+        //child blocks
+        //parse blocks into substrings and store each individual string in new row of column
+        loadArray[0] = ParseCSV(entryArray[size - 1].Date.value); 
+        loadArray[1] = ParseCSV(entryArray[size - 1].Item.value);
+        loadArray[2] = ParseCSV(entryArray[size - 1].val().PostRef);
+        loadArray[3] = ParseCSV(entryArray[size - 1].val().Debit);
+        loadArray[4] = ParseCSV(entryArray[size - 1].val().Credit);
+        for (var x = 0; x < 3; x++) {//build string components
+            var Date = ' ';
+            var Item = ' ';
+            var PostRef = ' ';
+            var Debit = ' ';
+            var Credit = ' ';
+            if (loadArray[x][0] !== undefined) { Date = loadArray[x][0]; };
+            if (loadArray[x][1] !== undefined) { Item = loadArray[x][1]; };
+            if (loadArray[x][2] !== undefined) { PostRef = loadArray[x][2]; };
+            if (loadArray[x][3] !== undefined) { Debit = loadArray[x][3]; };
+            if (loadArray[x][4] !== undefined) { Credit = loadArray[x][4]; };
+            //build row from strings and append to table
+            table += '<tr><td>' + Date + '</td><td>' + Item + '</td><td>' + PostRef + '</td><td>' + Debit + '</td><td>' + Credit + '</td></tr>';
+        }
+    } else {
+        console.log("no more entries to evaluate")
+    }
 };
-function getNextEntry(){
-    get(child(dbRef, `Journal/`)).then((snapshot) => {
+async function getEntries() {
+    console.log("getEntries function entered");
+    await get(child(dbRef, `Journal/`)).then((snapshot) => {
         console.log("GNE");
         if (snapshot.exists()) {
-            snapshot.forEach((child) => {
-                if (child.child("Approved").val() == "Pending") {
-                    entryArray[entryQ] = child.val();
-                    entryQ++;
+            console.log("Journal snapshot exists");
+            snapshot.forEach((child) => {//gets the account child
+                var localChild = child;
+                console.log(localChild.val());
+                if (localChild.child("Approved").val() == "Pending") {//checks acount childs "Approved" child for "pending"
+                    entryArray.push(localChild.val());//stores account childs name in array if its value is "pending"
+                    console.log(entryArray[(entryArray.length) - 1]);
                 }
             })
         }
-        entryQ = 0;
+        console.log(entryArray.length);
     }).catch((error) => {
         console.error(error);
     });
