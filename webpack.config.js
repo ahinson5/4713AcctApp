@@ -15,7 +15,10 @@ module.exports = {
         generalJournalView: "./public/generaljournal-view.js",
         generalJournalEdit: "./public/generaljournal-edit.js",
         entryApproval: "./public/entryApproval.js",
-        errorLog: "./public/errorlog.js"
+        errorLog: "./public/errorlog.js",
+        financialStatements: "./public/financialstatements.js",
+        trialBalance: "./public/trialbalance.js",
+        editProfile: "./public/editprofile.js"
     },
     mode: "development",
     devtool: "eval-source-map",

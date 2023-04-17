@@ -1,5 +1,5 @@
 import {app} from "./firebaseinit";
-import {get, getDatabase, ref, child} from "firebase/database";           
+import {get, getDatabase, ref, child, update} from "firebase/database";           
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
 var acctName = "";
@@ -34,17 +34,8 @@ accountAnchors.forEach(element => {
 
 function DisplayBalance(){
     const dbRef = ref(getDatabase(app));
-    const table = document.getElementById("ledgerTable");
-    const rows = table.getElementsByTagName("tr");
     get(child(dbRef, `MyLedger/${acctName}`)).then((snapshot) => {
-        var total = 0;
-        var i = 1;
-        snapshot.forEach((child) => {
-            const cols = rows[i].getElementsByTagName("td");
-            total += (cols[2].textContent - cols[3].textContent);
-            i++;
-        });
-        document.querySelector("#ledgerBalanceHeader").textContent = "Balance: " + total;
+        document.querySelector("#ledgerBalanceHeader").textContent = "Balance: " + snapshot.val().balance;
     });
 }
 
