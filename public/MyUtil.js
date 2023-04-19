@@ -3,11 +3,17 @@ import { getDatabase, ref, child, get } from "firebase/database";
 
 //this var bridges currrent user accross pages
 var currentUser;
+var currentProfilePic;
 
 export function ShowLoggedInUserInfo(){
     var uLabel = document.querySelector(".usernameProfileLabel");
+    var profilePic = document.querySelector(".profilePic");
+
     currentUser = sessionStorage.getItem("currentUser");
+    currentProfilePic = sessionStorage.getItem("profilePic");
+
     uLabel.textContent = currentUser;
+    profilePic.setAttribute('src', currentProfilePic);
 }
 
 export function CheckRole(classNameTohide){
