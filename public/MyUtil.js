@@ -1,5 +1,6 @@
-import {app} from "./firebaseinit"
+import {app} from "./firebaseinit";
 import { getDatabase, ref, child, get } from "firebase/database";
+import {getDownloadURL} from "firebase/storage";
 
 //this var bridges currrent user accross pages
 var currentUser;
@@ -13,7 +14,13 @@ export function ShowLoggedInUserInfo(){
     currentProfilePic = sessionStorage.getItem("profilePic");
 
     uLabel.textContent = currentUser;
-    profilePic.setAttribute('src', currentProfilePic);
+
+    if(currentProfilePic === "null"){
+        profilePic.setAttribute('src', 'default_user.png');
+    } else{
+        profilePic.setAttribute('src', currentProfilePic);
+    }
+
 }
 
 export function CheckRole(classNameTohide){
@@ -44,4 +51,16 @@ export function ParseCSV(inputString){
 
 export function GetUniqueID(){
     return "id" + Math.random().toString(16).slice(2); //Generating unique id's. https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
+}
+
+export function DownloadProfilePic(storageRef){
+    getDownloadURL(storageRef)
+  .then((url) => {
+    sessionStorage.setItem("profilePic", url);
+  })
+  .catch((error) => {
+    sessionStorage.setItem("profilePic", "null");
+  }).finally(() => {
+    ShowLoggedInUserInfo();
+  });
 }

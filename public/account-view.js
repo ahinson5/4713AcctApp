@@ -46,18 +46,19 @@ function ReadTableFromDatabase(){
     const rows = table.getElementsByTagName("tr");
 
     get(child(dbRef, `MyLedger/${acctName}`)).then((snapshot) => {
-
         var i = 1;
         snapshot.forEach((child) => {
-            const cols = rows[i].getElementsByTagName("td");
-            for(var j = 0; j < cols.length - 1; j++){
-                cols[0].textContent = child.val().Date;
-                cols[1].textContent = child.val().Description;
-                cols[2].textContent = child.val().Debits;
-                cols[3].textContent = child.val().Credits;
-                cols[4].getElementsByTagName("a")[0].innerHTML = child.val().PostRef;
+            if(child.key !== "balance"){
+                const cols = rows[i].getElementsByTagName("td");
+                for(var j = 0; j < cols.length - 1; j++){
+                    cols[0].textContent = child.val().Date;
+                    cols[1].textContent = child.val().Description;
+                    cols[2].textContent = child.val().Debits;
+                    cols[3].textContent = child.val().Credits;
+                    cols[4].getElementsByTagName("a")[0].innerHTML = child.val().PostRef;
+                }
+                i++;
             }
-            i++;
         });
     });
 }
