@@ -18,7 +18,8 @@ module.exports = {
         errorLog: "./public/errorlog.js",
         financialStatements: "./public/financialstatements.js",
         trialBalance: "./public/trialbalance.js",
-        editProfile: "./public/editprofile.js"
+        editProfile: "./public/editprofile.js",
+        dashboard: "./public/dashboard.js"
     },
     mode: "development",
     devtool: "eval-source-map",
