@@ -52,13 +52,14 @@ function displayToTable() {
         var Credits = ' ';
         loadArray[0] = ParseCSV(entryArray[size - 1].Date); 
         loadArray[1] = ParseCSV(entryArray[size - 1].Accounts);
-        loadArray[2] = ParseCSV(entryArray[size - 1].PostRef);
-        loadArray[3] = ParseCSV(entryArray[size - 1].Debits);
-        loadArray[4] = ParseCSV(entryArray[size - 1].Credits);
+        loadArray[2] = ParseCSV(entryArray[size - 1].Description);
+        loadArray[3] = ParseCSV(entryArray[size - 1].PostRef);
+        loadArray[4] = ParseCSV(entryArray[size - 1].Debits);
+        loadArray[5] = ParseCSV(entryArray[size - 1].Credits);
         //build row from strings and append to table
         var row = table.insertRow(1);
         var cell;
-        for (var x = 0; x < 5; x++) {
+        for (var x = 0; x < 6; x++) {
             cell = row.insertCell(x);
             cell.innerHTML = loadArray[x];
             console.log(loadArray[x]);
@@ -75,11 +76,11 @@ async function getEntries() {
             //console.log("Journal snapshot exists");
             snapshot.forEach((child) => {//gets the account child
                 const localChild = child;
-                const childName = localChild.key;
+                const childName = child.key;
                 console.log(childName);
-                console.log(localChild.key);
+                console.log(child.val());
                 if (localChild.child("Approved").val() == "Pending") {//checks acount childs "Approved" child for "pending"
-                    entryArray.push(localChild.val());//stores account childs values in array if its value is "pending"
+                    entryArray.push(child.val());//stores account childs values in array if its value is "pending"
                     nameArray.push(childName);//stores account childs name in array if its value is "pending"
                     arrayCheck = 1;
                 }
@@ -98,13 +99,20 @@ async function getEntries() {
 };
 
 async function setApprove() {
+    console.log("set denied called");
     await get(child(ref(db), `Journal/` + nameArray[nameArray.length - 1])).then((snapshot) => {
-        console.log("snapshot");
+        console.log(child.key);
         if (snapshot.exists()) {
             update(ref(db, 'Journal/' + nameArray[nameArray.length - 1]), {
                 Approved: 'Approved'
             });
+            nameArray.pop();
+            entryArray.pop();
         } else {
+            var row = table.insertRow(1);
+            cell = row.insertCell(1);
+            cell.innerHTML = "No pending entries";
+            //console.log("No pending entries");
             console.log("No pending entries")
         }
         table.deleteRow(1);
@@ -114,17 +122,19 @@ async function setApprove() {
 };
 
 async function setDenied() {
+    console.log("set denied called");
     await get(child(ref(db), `Journal/` + nameArray[nameArray.length - 1])).then((snapshot) => {
-        console.log("snapshot");
+        console.log(child.key);
         if (snapshot.exists()) {
             update(ref(db, 'Journal/' + nameArray[nameArray.length - 1]), {
-                Approved: 'Approved'
+                Approved: 'Denied'
             });
+            nameArray.pop();
+            entryArray.pop();
         } else {
             var row = table.insertRow(1);
             cell = row.insertCell(1);
             cell.innerHTML = "No pending entries";
-            //console.log("No pending entries");
         }
         table.deleteRow(1);
     }).catch((error) => {
