@@ -1,12 +1,16 @@
 import { app } from "./firebaseinit";
 import { get, getDatabase, ref, child, set } from "firebase/database";
-import { ShowLoggedInUserInfo, CheckRole } from "./MyUtil";
+import { getStorage, ref as sRef} from "firebase/storage";
+import { ShowLoggedInUserInfo, CheckRole, DownloadProfilePic } from "./MyUtil";
+
+const storage = getStorage();
+const storageRef = sRef(storage, 'profilePic');
 
 window.addEventListener('load', (event) => {
-    ShowLoggedInUserInfo();
     CheckRole("homepageEditBtn");
     CheckRole("entryApprovalBtn");
     ReadTableFromDatabase();
+    DownloadProfilePic(storageRef);
 });
 
 //Listen to the account title's click event.

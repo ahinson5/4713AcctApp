@@ -24,8 +24,8 @@ function CalcAndUpdateLedgerBal(){
         snapshot.forEach((child) => {
             var bal = 0;
             child.forEach((subchild) => {
-                if(subchild.val().Credits) bal += (-1 * subchild.val().Credits);
-                if(subchild.val().Debits) bal += subchild.val().Debits;
+                if(subchild.val().Credits) bal += +(-1 * subchild.val().Credits);
+                if(subchild.val().Debits) bal += +subchild.val().Debits;
             });
             update(ref(getDatabase(app), `MyLedger/${child.key}`), {
                 balance: bal

@@ -128,10 +128,11 @@ function ReadCoaFromDB() {
 
             inputs[0].value = child.val().Date;
             inputs[1].value = child.val().Accounts;
+            inputs[2].vaue = child.val().Description;
             inputs[3].value = child.val().Debits;
             inputs[4].value = child.val().Credits;
             if (child.val().Approved === "Approved") {
-                data[4].textContent = child.val().PostRef;
+                data[5].textContent = child.val().PostRef;
             }
             i++;
         });
