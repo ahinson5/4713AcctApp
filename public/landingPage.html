@@ -7,9 +7,16 @@
 <body>
     <div class="left">
         <img src="project_logo.png" width="150" height="150"><br>
+        <a href="./financialstatements.html"><button>Financial Statements</button></a><br>
+        <a href="./homepage-view.html"><button>Chart of Accounts</button></a><br>
+        <a href="./generaljournal-view.html"><button>General Journal</button></a><br>
+        <a href="./landingPage.html"><button>Dashboard</button></a><br>
+        <label>You have <span id="pendingEntrySpan">0</span> pending journal entries.</label>
     </div>
     <div class="center">
+        <h1>Dashboard</h1>
         <canvas id="myChart"></canvas>
+        <label id="liquidityRatioLabel">Liquidity Ratio: <span id="liqRatioSpan" style="font-weight: bold"></span></label><br>
     </div>
     <div class="right">
         <img class="profilePic" src="default_user.png" width="100" height="87" style="float: right;"><br>
@@ -23,11 +30,6 @@
         <a href="./email.html">
             <button id="logoutButton">Email</button>
         </a>
-    </div>
-    <div id="buttons">
-        <button type="button" id="homeBtn" onclick="window.location.href = './homepage-view.html';">Homepage</button><br>
-        <button type="button" id="backBtn" onclick="window.location.href = './index.html';">Back</button><br>
-
     </div>
     <script src="./dist/landingPage.bundle.js"></script>
 </body>
