@@ -2,6 +2,8 @@ import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { app } from "./firebaseinit";
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
+var liqRatioSpan = document.querySelector("#liqRatioSpan");
+
 window.addEventListener("load", () => {
     console.log("Loaded dashboard page");
     ShowLoggedInUserInfo();
@@ -21,7 +23,20 @@ async function CalcLiquidityRatio() {
     const assetBal = await GetLedgerBalanceMatching(assetAcctNames);
     const liabilityBal = await GetLedgerBalanceMatching(liabilityAcctNames);
 
-    console.log((assetBal / liabilityBal).toFixed(1));
+    var ratio = (assetBal / liabilityBal);
+    ColorRatioText(ratio);
+}
+
+function ColorRatioText(ratio){
+    liqRatioSpan.textContent = ratio.toFixed(1);
+
+    if(ratio < 1){
+        liqRatioSpan.style.color = "#B53A34";
+    } else if(ratio >= 1 && ratio < 2){
+        liqRatioSpan.style.color = "#B59F00";
+    } else{
+        liqRatioSpan.style.color = "#348937";
+    }
 }
 
 async function GetLedgerBalanceMatching(names){
