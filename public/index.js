@@ -40,7 +40,7 @@ function loginProc() {
             if (snapshot.exists()) {
                 if (snapshot.val().userPW == passwordBox.value) {
                     window.sessionStorage.setItem("currentUser", usernameBox.value);
-                    window.location.href = "./homepage-view.html";
+                    window.location.href = "./landingpage.html";
                 }
             } else {
                 console.log("No data available");
