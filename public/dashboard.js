@@ -3,6 +3,7 @@ import { app } from "./firebaseinit";
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
 var liqRatioSpan = document.querySelector("#liqRatioSpan");
+var pendingEntrySpan = document.querySelector("#pendingEntrySpan");
 
 window.addEventListener("load", () => {
     console.log("Loaded dashboard page");
