@@ -4,26 +4,8 @@ import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { getStorage, ref as sRef} from "firebase/storage";
 import { app } from "./firebaseinit";
 
-const ctx = document.getElementById('myChart');
-
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-            label: '# of Votes',
-            data: [5, 19, 3, 5, 2, 3],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+const pieChart = document.getElementById('pieChart');
+const barChart = document.getElementById('barChart');
 
 var liqRatioSpan = document.querySelector("#liqRatioSpan");
 var pendingEntrySpan = document.querySelector("#pendingEntrySpan");
@@ -50,9 +32,74 @@ async function CalcLiquidityRatio() {
 
     const assetBal = await GetLedgerBalanceMatching(assetAcctNames);
     const liabilityBal = await GetLedgerBalanceMatching(liabilityAcctNames);
+    const pendingEntries = await GetPendingJournalEntryCount();
 
+    MakeCharts(assetBal, liabilityBal);
     var ratio = (assetBal / liabilityBal);
     ColorRatioText(ratio);
+    pendingEntrySpan.textContent = `${pendingEntries}`;
+}
+
+async function GetPendingJournalEntryCount(){
+    const dbRef = ref(getDatabase(app));
+    const getPromise = await get(child(dbRef, 'MyJournal'));
+    var count = 0;
+    getPromise.forEach((child) => {
+        if(child.val().Approved === "Pending"){
+            count++;
+        }
+    });
+    return count;
+}
+
+function MakeCharts(assetBal, liabilityBal){
+    new Chart(pieChart, {
+        type: 'pie',
+        data: {
+            labels: [
+                'Assets',
+                'Liabilities',
+              ],
+              datasets: [{
+                data: [assetBal, liabilityBal],
+                backgroundColor: [
+                    "#348937",
+                    "#B53A34"
+                ],
+                hoverOffset: 4
+              }]
+        },
+        options: {
+        }
+    });
+
+    new Chart(barChart, {
+        type: 'bar',
+        data: {
+            labels: ['Assets', 'Liabilities'],
+            datasets: [{
+                label: 'Dollar Amount',
+                data: [assetBal, liabilityBal],
+                backgroundColor: [
+                    "#348937",
+                    "#B53A34"
+                  ],
+                  borderColor: [
+                    "#348937",
+                    "#B53A34"
+                  ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 }
 
 function ColorRatioText(ratio){
