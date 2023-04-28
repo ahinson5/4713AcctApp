@@ -83,11 +83,11 @@ async function WriteCoaToDB() {
             }
             var nameArr = data[1].split(",");
 
-            const snapshot = await get(child(dbRef, `COA`));
+            const coaProm = await get(child(dbRef, `COA`));
             var postRefNo = "";
             var count = 0;
             for (var j = 0; j < nameArr.length; j++) {
-                snapshot.forEach((child) => {
+                coaProm.forEach((child) => {
                     if (child.val().Title === nameArr[j]) {
                         count++;
                         postRefNo += child.val().No;
@@ -100,6 +100,15 @@ async function WriteCoaToDB() {
             if(!ValidateAccountName(count, i)){
                 return;
             }
+
+            const journalProm = await get(child(dbRef, 'MyJournal'));
+            journalProm.forEach((child) => {
+                var approvedStatus = child.val().Approved;
+                if(HasGenJournalChanged(child, data)){
+                    approvedStatus = "Pending";
+                }
+                data.push(approvedStatus);
+            });
             set(ref(getDatabase(app), `MyJournal/Entry${i}`), {
                 Date: data[0],
                 Accounts: data[1],
@@ -107,9 +116,18 @@ async function WriteCoaToDB() {
                 Debits: data[3],
                 Credits: data[4],
                 PostRef: postRefNo,
-                Approved: "Pending"
+                Approved: data[5]
             });
         }
+    }
+}
+
+function HasGenJournalChanged(snapshot, data){
+
+    if(snapshot.val().Date != data[0] || snapshot.val().Accounts != data[1] || snapshot.val().Description != data[2] || snapshot.val().Debits != data[3] || snapshot.val().Credits != data[4]){
+        return true;
+    } else{
+        return false;
     }
 }
 
@@ -128,7 +146,7 @@ function ReadCoaFromDB() {
 
             inputs[0].value = child.val().Date;
             inputs[1].value = child.val().Accounts;
-            inputs[2].vaue = child.val().Description;
+            inputs[2].value = child.val().Description;
             inputs[3].value = child.val().Debits;
             inputs[4].value = child.val().Credits;
             if (child.val().Approved === "Approved") {
