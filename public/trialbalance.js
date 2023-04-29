@@ -3,7 +3,6 @@ import { app } from "./firebaseinit";
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
 var genTBBtn = document.querySelector("#GenTrialBalanceBtn");
-var debugBtn = document.querySelector("#DebugCalcLedgerBalBtn")
 
 window.addEventListener("load", () => {
     ShowLoggedInUserInfo();
@@ -13,26 +12,6 @@ window.addEventListener("load", () => {
 genTBBtn.addEventListener("click", () =>{
     GenerateTrialBalance();
 });
-debugBtn.addEventListener("click", () =>{
-    CalcAndUpdateLedgerBal();
-});
-
-//Adds up the credits and debits from the ledger entries, and updates the balance.
-function CalcAndUpdateLedgerBal(){
-    const dbRef = ref(getDatabase(app));
-    get(child(dbRef, `Ledger`)).then((snapshot) => {
-        snapshot.forEach((child) => {
-            var bal = 0;
-            child.forEach((subchild) => {
-                if(subchild.val().Credits) bal += +(-1 * subchild.val().Credits);
-                if(subchild.val().Debits) bal += +subchild.val().Debits;
-            });
-            update(ref(getDatabase(app), `Ledger/${child.key}`), {
-                balance: bal
-            });
-        });
-    });
-}
 
 //Populates the HTML table with the current Trial Balance values from the DB
 function WriteTrialBalanceToHTML(){

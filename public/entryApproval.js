@@ -13,14 +13,13 @@ var arrayCheck = 0;
 const entryArray = [];
 const nameArray = [];
 const db = getDatabase(app);
-const dbRef = ref(db)
+const dbRef = ref(db);
 const table = document.getElementById("entryDisplay");
 
 window.addEventListener('load', (event) => {
     console.log("window load")
     ShowLoggedInUserInfo();
     getEntries();
-    //displayToTable();
 });
 
 getEntryBtn.addEventListener("click", (event) => {
@@ -50,7 +49,7 @@ function displayToTable() {
         var PostRef = ' ';
         var Debits = ' ';
         var Credits = ' ';
-        loadArray[0] = ParseCSV(entryArray[size - 1].Date); 
+        loadArray[0] = ParseCSV(entryArray[size - 1].Date);
         loadArray[1] = ParseCSV(entryArray[size - 1].Accounts);
         loadArray[2] = ParseCSV(entryArray[size - 1].Description);
         loadArray[3] = ParseCSV(entryArray[size - 1].PostRef);
@@ -99,27 +98,60 @@ async function getEntries() {
 };
 
 async function setApprove() {
-    console.log("set denied called");
-    await get(child(ref(db), `Journal/` + nameArray[nameArray.length - 1])).then((snapshot) => {
-        console.log(child.key);
-        if (snapshot.exists()) {
-            update(ref(db, 'Journal/' + nameArray[nameArray.length - 1]), {
-                Approved: 'Approved'
+
+    const getJournal = await get(child(ref(db), `Journal/` + nameArray[nameArray.length - 1]));
+    if (getJournal.exists()) {
+        update(ref(db, 'Journal/' + nameArray[nameArray.length - 1]), {
+            Approved: 'Approved'
+        });
+
+        const getProm = await get(child(dbRef, `Ledger`));
+
+        var size = getProm.size;
+        if(size == 0){size = 1}
+        var accounts = entryArray[entryArray.length - 1].Accounts.split(",");
+        var debits = entryArray[entryArray.length - 1].Debits.split(",");
+        var credits = entryArray[entryArray.length - 1].Credits.split(",");
+
+        for(var i = 0; i < 2; i++){
+            const setProm = await update(ref(db, `Ledger/${accounts[i]}/Entry${size}`), {
+                Date: entryArray[entryArray.length - 1].Date,
+                Description: entryArray[entryArray.length - 1].Description,
+                Debits: debits[i],
+                Credits: credits[i],
+                PostRef: "1"
             });
-            nameArray.pop();
-            entryArray.pop();
-        } else {
-            var row = table.insertRow(1);
-            cell = row.insertCell(1);
-            cell.innerHTML = "No pending entries";
-            //console.log("No pending entries");
-            console.log("No pending entries")
         }
-        table.deleteRow(1);
-    }).catch((error) => {
-        console.error(error);
-    });
+        CalcAndUpdateLedgerBal();
+
+        nameArray.pop();
+        entryArray.pop();
+    } else {
+        var row = table.insertRow(1);
+        cell = row.insertCell(1);
+        cell.innerHTML = "No pending entries";
+        console.log("No pending entries")
+    }
+    table.deleteRow(1);
+
 };
+
+//Adds up the credits and debits from the ledger entries, and updates the balance.
+function CalcAndUpdateLedgerBal(){
+    const dbRef = ref(getDatabase(app));
+    get(child(dbRef, `Ledger`)).then((snapshot) => {
+        snapshot.forEach((child) => {
+            var bal = 0;
+            child.forEach((subchild) => {
+                if(subchild.val().Credits) bal += +(-1 * subchild.val().Credits);
+                if(subchild.val().Debits) bal += +subchild.val().Debits;
+            });
+            update(ref(getDatabase(app), `Ledger/${child.key}`), {
+                balance: bal
+            });
+        });
+    });
+}
 
 async function setDenied() {
     console.log("set denied called");
@@ -143,7 +175,7 @@ async function setDenied() {
 };
 
 function ParseCSV(inputString) {
-    console.log("in csv"+inputString);
+    console.log("in csv" + inputString);
     const stringArr = inputString.split(",");
     var formattedString = "";
     for (var i = 0; i < stringArr.length; i++) {
@@ -154,22 +186,4 @@ function ParseCSV(inputString) {
         formattedString += stringArr[i] + newLine;
     }
     return formattedString;
-    };
-
-/* variable setup and html references
-var form = document.querySelector("#createNewUserForm");
-var label = form.querySelector("label[class='infoLabel']");
-var fName = form.querySelector("input[id ='firstName']");
-var lName = form.querySelector("input[id ='lastName']");
-var address = form.querySelector("input[id ='address']");
-var DOB = form.querySelector("input[id ='DOB']");
-var pword = form.querySelector("input[class='password']");
-*/
-
-/*iterating through firebase collection children https://stackoverflow.com/questions/74252115/retrieve-first-child-value-of-parent-value-in-firebase-realtime-database
-database.ref("parent").on('value', (snapshot) => {
-    snapshot.forEach((child) => {
-        console.log(child.key); // "child1", "child2"
-        console.log(child.child("data").val()); // "123", "123"
-    });
-}*/
+};
