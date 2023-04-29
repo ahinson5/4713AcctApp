@@ -1,5 +1,11 @@
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
+var sendMailButton = document.querySelector("#sendMailButton");
+
+sendMailButton.addEventListener("click", () => {
+    sendMail();
+});
+
 window.addEventListener('load', (event) => {
     ShowLoggedInUserInfo();
 });

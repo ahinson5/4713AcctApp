@@ -17,7 +17,7 @@
         })();
     </script>
     <link rel="stylesheet" href="global.css">
-    <script src="./dist/email.bundle.js"></script>
+
 </head>
 
 <body>
@@ -60,10 +60,11 @@
                     <h5 for="message">Message</h5>
                     <textarea class="form-control" id="message" rows="3"></textarea>
                 </div>
-                <button class="btn btn-primary" onclick="sendMail()">Submit</button>
+                <button id = "sendMailButton" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </div>
+    <script src="./dist/email.bundle.js"></script>
 </body>
 
 </html>
