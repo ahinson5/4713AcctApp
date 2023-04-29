@@ -20,9 +20,16 @@
 <link rel="stylesheet" href="global.css">
 
 <body style="overflow-y: scroll;">
-    <img src="project_logo.png" width="150" height="150" style="float: left;">
+    <div class="left">
+        <img src="project_logo.png" width="150" height="150"><br>
+        <a href="./financialstatements.html"><button>Financial Statements</button></a><br>
+        <a href="./homepage-view.html"><button>Chart of Accounts</button></a><br>
+        <a href="./generaljournal-view.html"><button>General Journal</button></a><br>
+        <a href="./landingPage.html"><button>Dashboard</button></a><br>
+    </div>
     
     <div class="center">
+        <button type="button" id="getEntryBtn">Get Entry</button>
         <table style="width:50%" id="entryDisplay">
             <tr>
                 <th style="width:10%">Date</th>
@@ -33,20 +40,23 @@
                 <th style="width:18%">Credit</th>
             </tr>
         </table><br>
-    </div>
-    <div class="right">
-        <img class ="profilePic" src="default_user.png" width="100" height="87" style="float: right;"><br>
-        <label class="usernameProfileLabel" style="float: right"></label><br>
-        <button onclick="window.location.href = './index.html';" id="logoutBtn" style="margin-top: 1rem;">Logout</button>
-    </div>
-    <div id="buttons">
-        <button type="button" id="getEntryBtn">Get Entry</button>
-        <button type="button" id="backBtn" onclick="window.location.href = './homepage-view.html';">Back</button>
-    </div>
-    <div class="fixed">
         <button type="button" id="approveBtn">Approve</button>
         <button type="button" id="denyBtn">Deny</button>
     </div>
+    <div class="right">
+        <img class="profilePic" src="default_user.png" width="100" height="87" style="float: right;"><br>
+        <label class="usernameProfileLabel" style="float: right"></label><br>
+        <a href="./editprofile.html">
+            <button style="margin-top: 1rem;">Edit Profile</button>
+        </a><br>
+        <a href="./index.html">
+            <button id="logoutButton">Logout</button>
+        </a><br>
+        <a href="./email.html">
+            <button id="logoutButton">Email</button>
+        </a>
+    </div>
+
     <script src="./dist/entryApproval.bundle.js"></script>
 </body>
 </html>

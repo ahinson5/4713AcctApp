@@ -1,4 +1,4 @@
-import { child, get, getDatabase, ref, set, update } from "firebase/database";
+import { child, get, getDatabase, ref, set, update, remove } from "firebase/database";
 import { app } from "./firebaseinit";
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
@@ -35,6 +35,9 @@ function WriteTrialBalanceToHTML(){
 async function SaveTrialBalanceToDB(){
     const table = document.getElementById("TrialBalanceTable");
     const rows = table.getElementsByTagName("tr");
+
+    const removePromise = await remove(ref(getDatabase(app), `TrialBalance`));
+
     for(var i = 1; i < rows.length; i++){
         var cols = rows[i].getElementsByTagName("td");
         if(cols[0].textContent){

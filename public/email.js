@@ -1,3 +1,9 @@
+import { ShowLoggedInUserInfo } from "./MyUtil";
+
+window.addEventListener('load', (event) => {
+    ShowLoggedInUserInfo();
+});
+
 function sendMail() {
     var params = {
         name: document.getElementById("name").value,
@@ -18,5 +24,4 @@ function sendMail() {
 
         })
         .catch(err => console.log(err));
-
 }

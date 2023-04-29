@@ -3,6 +3,7 @@ import { get, getDatabase, ref, child, set } from "firebase/database";
 import { ShowLoggedInUserInfo, CheckRole } from "./MyUtil";
 
 window.addEventListener('load', (event) => {
+    ShowLoggedInUserInfo();
     CheckRole("homepageEditBtn");
     ReadTableFromDatabase();
 });

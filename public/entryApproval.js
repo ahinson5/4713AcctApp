@@ -105,16 +105,14 @@ async function setApprove() {
             Approved: 'Approved'
         });
 
-        const getProm = await get(child(dbRef, `Ledger`));
-
-        var size = getProm.size;
-        if(size == 0){size = 1}
         var accounts = entryArray[entryArray.length - 1].Accounts.split(",");
         var debits = entryArray[entryArray.length - 1].Debits.split(",");
         var credits = entryArray[entryArray.length - 1].Credits.split(",");
 
         for(var i = 0; i < 2; i++){
-            const setProm = await update(ref(db, `Ledger/${accounts[i]}/Entry${size}`), {
+            const getProm = await get(child(dbRef, `Ledger/${accounts[i]}`));
+            var size = getProm.size;
+            const setProm = await update(ref(db, `Ledger/${accounts[i]}/Entry${size + 1}`), {
                 Date: entryArray[entryArray.length - 1].Date,
                 Description: entryArray[entryArray.length - 1].Description,
                 Debits: debits[i],

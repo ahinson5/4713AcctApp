@@ -18,7 +18,8 @@ module.exports = {
         financialStatements: "./public/financialstatements.js",
         trialBalance: "./public/trialbalance.js",
         editProfile: "./public/editprofile.js",
-        landingPage: "./public/landingPage.js"     
+        landingPage: "./public/landingPage.js",
+        email: "./public/email.js"     
     },
     mode: "development",
     devtool: "eval-source-map",
