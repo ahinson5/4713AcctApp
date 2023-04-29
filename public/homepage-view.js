@@ -4,7 +4,6 @@ import { ShowLoggedInUserInfo, CheckRole } from "./MyUtil";
 
 window.addEventListener('load', (event) => {
     CheckRole("homepageEditBtn");
-    CheckRole("entryApprovalBtn");
     ReadTableFromDatabase();
 });
 

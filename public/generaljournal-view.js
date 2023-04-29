@@ -1,9 +1,10 @@
-import {ShowLoggedInUserInfo, ParseCSV } from "./MyUtil";
+import {ShowLoggedInUserInfo, ParseCSV, CheckRole } from "./MyUtil";
 import {app} from "./firebaseinit";
 import {get, getDatabase, ref, child, set} from "firebase/database";     
 
 window.addEventListener("load", () => {
     ShowLoggedInUserInfo();
+    CheckRole("entryApprovalBtn");
     ReadTableFromDatabase();
 });
 

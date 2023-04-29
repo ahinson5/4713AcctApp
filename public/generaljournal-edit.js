@@ -1,4 +1,4 @@
-import { ShowLoggedInUserInfo, ParseCSV, GetUniqueID } from "./MyUtil";
+import { ShowLoggedInUserInfo, ParseCSV, GetUniqueID, CheckRole } from "./MyUtil";
 import { app } from "./firebaseinit";
 import { ref, getDatabase, set, get, child } from "firebase/database"
 
@@ -7,6 +7,7 @@ var errorLabel = document.querySelector("#genJournalEditErrorLabel");
 
 window.addEventListener("load", () => {
     ShowLoggedInUserInfo();
+    CheckRole("entryApprovalBtn");
     ReadCoaFromDB();
 });
 
@@ -120,7 +121,6 @@ async function WriteCoaToDB() {
 }
 
 function HasGenJournalChanged(snapshot, data){
-
     if(snapshot.val().Date != data[0] || snapshot.val().Accounts != data[1] || snapshot.val().Description != data[2] || snapshot.val().Debits != data[3] || snapshot.val().Credits != data[4]){
         return true;
     } else{
