@@ -27,7 +27,7 @@ function ReadTableFromDatabase(){
     const table = document.getElementById("GeneralJournalViewTable");
     const rows = table.getElementsByTagName("tr");
 
-    get(child(dbRef, `MyJournal`)).then((snapshot) => {
+    get(child(dbRef, `Journal`)).then((snapshot) => {
 
         var i = 1;
         snapshot.forEach((child) => {

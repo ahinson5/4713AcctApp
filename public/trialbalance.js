@@ -20,14 +20,14 @@ debugBtn.addEventListener("click", () =>{
 //Adds up the credits and debits from the ledger entries, and updates the balance.
 function CalcAndUpdateLedgerBal(){
     const dbRef = ref(getDatabase(app));
-    get(child(dbRef, `MyLedger`)).then((snapshot) => {
+    get(child(dbRef, `Ledger`)).then((snapshot) => {
         snapshot.forEach((child) => {
             var bal = 0;
             child.forEach((subchild) => {
                 if(subchild.val().Credits) bal += +(-1 * subchild.val().Credits);
                 if(subchild.val().Debits) bal += +subchild.val().Debits;
             });
-            update(ref(getDatabase(app), `MyLedger/${child.key}`), {
+            update(ref(getDatabase(app), `Ledger/${child.key}`), {
                 balance: bal
             });
         });
@@ -74,7 +74,7 @@ async function GenerateTrialBalance() {
     const table = document.getElementById("TrialBalanceTable");
     const rows = table.getElementsByTagName("tr");
 
-    const getPromise = await get(child(dbRef, `MyLedger`)).then((snapshot) => {
+    const getPromise = await get(child(dbRef, `Ledger`)).then((snapshot) => {
         var debitTotal = 0;
         var creditTotal = 0;
         var i = 1;

@@ -42,7 +42,7 @@ async function CalcLiquidityRatio() {
 
 async function GetPendingJournalEntryCount(){
     const dbRef = ref(getDatabase(app));
-    const getPromise = await get(child(dbRef, 'MyJournal'));
+    const getPromise = await get(child(dbRef, 'Journal'));
     var count = 0;
     getPromise.forEach((child) => {
         if(child.val().Approved === "Pending"){
@@ -118,7 +118,7 @@ async function GetLedgerBalanceMatching(names){
     const dbRef = ref(getDatabase(app));
     var bal = 0;
 
-    const getPromise = await get(child(dbRef, `MyLedger`));
+    const getPromise = await get(child(dbRef, `Ledger`));
 
     getPromise.forEach((child) => {
         if (names.includes(child.key)) {

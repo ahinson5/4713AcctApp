@@ -101,22 +101,19 @@ async function WriteCoaToDB() {
                 return;
             }
 
-            const journalProm = await get(child(dbRef, 'MyJournal'));
-            journalProm.forEach((child) => {
-                var approvedStatus = child.val().Approved;
-                if(HasGenJournalChanged(child, data)){
-                    approvedStatus = "Pending";
-                }
-                data.push(approvedStatus);
-            });
-            set(ref(getDatabase(app), `MyJournal/Entry${i}`), {
+            const journalProm = await get(child(dbRef, `Journal/Entry${i}`));
+            var approvalStatus = "Pending";
+            if(journalProm.exists() && !HasGenJournalChanged(journalProm, data)){
+                approvalStatus = journalProm.val().Approved;
+            }
+            set(ref(getDatabase(app), `Journal/Entry${i}`), {
                 Date: data[0],
                 Accounts: data[1],
                 Description: data[2],
                 Debits: data[3],
                 Credits: data[4],
                 PostRef: postRefNo,
-                Approved: data[5]
+                Approved: approvalStatus
             });
         }
     }
@@ -137,7 +134,7 @@ function ReadCoaFromDB() {
     const table = document.getElementById("GeneralJournalTable");
     const rows = table.getElementsByTagName("tr");
 
-    get(child(dbRef, `MyJournal`)).then((snapshot) => {
+    get(child(dbRef, `Journal`)).then((snapshot) => {
 
         var i = 1;
         snapshot.forEach((child) => {

@@ -2,7 +2,6 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        database: "./public/database.js",
         firebaseinit: "./public/firebaseinit.js",
         index: "./public/index.js",
         createnewuser: "./public/createnewuser.js",

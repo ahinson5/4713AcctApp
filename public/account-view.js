@@ -34,7 +34,7 @@ accountAnchors.forEach(element => {
 
 function DisplayBalance(){
     const dbRef = ref(getDatabase(app));
-    get(child(dbRef, `MyLedger/${acctName}`)).then((snapshot) => {
+    get(child(dbRef, `Ledger/${acctName}`)).then((snapshot) => {
         document.querySelector("#ledgerBalanceHeader").textContent = "Balance: " + snapshot.val().balance;
     });
 }
@@ -45,7 +45,7 @@ function ReadTableFromDatabase(){
     const table = document.getElementById("ledgerTable");
     const rows = table.getElementsByTagName("tr");
 
-    get(child(dbRef, `MyLedger/${acctName}`)).then((snapshot) => {
+    get(child(dbRef, `Ledger/${acctName}`)).then((snapshot) => {
         var i = 1;
         snapshot.forEach((child) => {
             if(child.key !== "balance"){
