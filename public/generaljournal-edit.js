@@ -165,7 +165,7 @@ function ReadCoaFromDB() {
                 status = "Approved";
             } else {
                 color = "#B76D68";
-                status = "Not Approved";
+                status = "Rejected";
             }
             buttons[0].style.background = color;
             buttons[0].textContent = status;

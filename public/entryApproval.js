@@ -49,12 +49,12 @@ function displayToTable() {
         var PostRef = ' ';
         var Debits = ' ';
         var Credits = ' ';
-        loadArray[0] = ParseCSV(entryArray[size - 1].Date);
-        loadArray[1] = ParseCSV(entryArray[size - 1].Accounts);
-        loadArray[2] = ParseCSV(entryArray[size - 1].Description);
-        loadArray[3] = ParseCSV(entryArray[size - 1].PostRef);
-        loadArray[4] = ParseCSV(entryArray[size - 1].Debits);
-        loadArray[5] = ParseCSV(entryArray[size - 1].Credits);
+        loadArray[0] = ParseCSV(entryArray[0].Date);
+        loadArray[1] = ParseCSV(entryArray[0].Accounts);
+        loadArray[2] = ParseCSV(entryArray[0].Description);
+        loadArray[3] = ParseCSV(entryArray[0].PostRef);
+        loadArray[4] = ParseCSV(entryArray[0].Debits);
+        loadArray[5] = ParseCSV(entryArray[0].Credits);
         //build row from strings and append to table
         var row = table.insertRow(1);
         var cell;
@@ -99,22 +99,22 @@ async function getEntries() {
 
 async function setApprove() {
 
-    const getJournal = await get(child(ref(db), `Journal/` + nameArray[nameArray.length - 1]));
+    const getJournal = await get(child(ref(db), `Journal/` + nameArray[0]));
     if (getJournal.exists()) {
-        update(ref(db, 'Journal/' + nameArray[nameArray.length - 1]), {
+        update(ref(db, 'Journal/' + nameArray[0]), {
             Approved: 'Approved'
         });
 
-        var accounts = entryArray[entryArray.length - 1].Accounts.split(",");
-        var debits = entryArray[entryArray.length - 1].Debits.split(",");
-        var credits = entryArray[entryArray.length - 1].Credits.split(",");
+        var accounts = entryArray[0].Accounts.split(",");
+        var debits = entryArray[0].Debits.split(",");
+        var credits = entryArray[0].Credits.split(",");
 
         for(var i = 0; i < 2; i++){
             const getProm = await get(child(dbRef, `Ledger/${accounts[i]}`));
             var size = getProm.size;
             const setProm = await update(ref(db, `Ledger/${accounts[i]}/Entry${size + 1}`), {
-                Date: entryArray[entryArray.length - 1].Date,
-                Description: entryArray[entryArray.length - 1].Description,
+                Date: entryArray[0].Date,
+                Description: entryArray[0].Description,
                 Debits: debits[i],
                 Credits: credits[i],
                 PostRef: "1"
@@ -122,8 +122,8 @@ async function setApprove() {
         }
         CalcAndUpdateLedgerBal();
 
-        nameArray.pop();
-        entryArray.pop();
+        nameArray.shift();
+        entryArray.shift();
     } else {
         var row = table.insertRow(1);
         cell = row.insertCell(1);
@@ -153,14 +153,14 @@ function CalcAndUpdateLedgerBal(){
 
 async function setDenied() {
     console.log("set denied called");
-    await get(child(ref(db), `Journal/` + nameArray[nameArray.length - 1])).then((snapshot) => {
+    await get(child(ref(db), `Journal/` + nameArray[0])).then((snapshot) => {
         console.log(child.key);
         if (snapshot.exists()) {
-            update(ref(db, 'Journal/' + nameArray[nameArray.length - 1]), {
+            update(ref(db, 'Journal/' + nameArray[0]), {
                 Approved: 'Denied'
             });
-            nameArray.pop();
-            entryArray.pop();
+            nameArray.shift();
+            entryArray.shift();
         } else {
             var row = table.insertRow(1);
             cell = row.insertCell(1);
