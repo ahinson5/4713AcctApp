@@ -40,6 +40,7 @@ async function CalcLiquidityRatio() {
     pendingEntrySpan.textContent = `${pendingEntries}`;
 }
 
+//query for approved = pending entries
 async function GetPendingJournalEntryCount(){
     const dbRef = ref(getDatabase(app));
     const getPromise = await get(child(dbRef, 'Journal'));
@@ -51,7 +52,7 @@ async function GetPendingJournalEntryCount(){
     });
     return count;
 }
-
+//create charts
 function MakeCharts(assetBal, liabilityBal){
     new Chart(pieChart, {
         type: 'pie',
@@ -101,7 +102,7 @@ function MakeCharts(assetBal, liabilityBal){
     });
 
 }
-
+//set liquidity value color
 function ColorRatioText(ratio){
     liqRatioSpan.textContent = ratio.toFixed(1);
 
@@ -114,6 +115,7 @@ function ColorRatioText(ratio){
     }
 }
 
+//return input account balance value
 async function GetLedgerBalanceMatching(names){
     const dbRef = ref(getDatabase(app));
     var bal = 0;
@@ -128,7 +130,7 @@ async function GetLedgerBalanceMatching(names){
 
     return Math.abs(bal);
 }
-
+//get names of accounts matching type input
 async function GetAccountNamesMatching(type) {
     const dbRef = ref(getDatabase(app));
 

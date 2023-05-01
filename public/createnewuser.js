@@ -34,13 +34,10 @@ async function SubmitForm() {
     var pword = password.value;
     console.log(pword.charAt(0));
     //username formatting
-    console.log(username);
-    console.log(pword)
     if (pword.length > 7 && alphaReg.test(pword.charAt(0))) {
         //length = 8 or greater AND it contains one letter
         //check entire string for digit and sc
         for (var x = 1; x <= pword.length; x++) {
-            console.log(x);
             if (digReg.test(pword.charAt(x))) {
                 pCheck1 = 1;
             }
@@ -48,11 +45,9 @@ async function SubmitForm() {
                 pCheck2 = 1;
             }
         }
-        console.log(pCheck1)
-        console.log(pCheck2)
+        //format validation check
         if (pCheck1 === 1 && pCheck2 === 1) {
-
-            console.log("in function2")
+            //set call loads fields to DB
             await set(ref(db, 'users/' + username), {
                 userName: fullname,
                 userAddress: address.value,
@@ -61,15 +56,13 @@ async function SubmitForm() {
                 userRole: "accountant"
             }).then(() => window.location.href = "/index.html");
         } else {
-            console.log(pCheck1.value)
-            console.log(pCheck2.value);
+            //user feedback if password format invalid
             password.value = '';
             password.placeholder = 'Incorrect password format';
         }
 
     } else {
-        console.log(pCheck1)
-        console.log(pCheck2);
+        //user feedback if password format invalid
         password.value = '';
         password.placeholder = 'Incorrect password format';
     }

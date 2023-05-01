@@ -1,5 +1,8 @@
 import { ShowLoggedInUserInfo } from "./MyUtil";
 
+
+/* Credit to Code with Voan: https://www.youtube.com/watch?v=dgcYOm8n8ME&t=543s 
+ and Email.js docs*/
 var sendMailButton = document.querySelector("#sendMailButton");
 
 sendMailButton.addEventListener("click", () => {

@@ -6,6 +6,7 @@ import {getDownloadURL} from "firebase/storage";
 var currentUser;
 var currentProfilePic;
 
+//Display current user info
 export function ShowLoggedInUserInfo(){
     var uLabel = document.querySelector(".usernameProfileLabel");
     var profilePic = document.querySelector(".profilePic");
@@ -23,6 +24,7 @@ export function ShowLoggedInUserInfo(){
 
 }
 
+//logs user permission for page access
 export function CheckRole(classNameTohide){
     const dbRef = ref(getDatabase(app));
 
