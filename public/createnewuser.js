@@ -16,14 +16,40 @@ var scReg = /[!@#$%^&*()]/;
 var pCheck1;
 var pCheck2;
 
-
-
 //listener and firebase db ref
 const db = getDatabase(app);
 form.addEventListener("submit", SubmitForm);
 
+window.addEventListener("load", () => {
+    console.log("Loaded CreateNewUser Page");
+});
+
+function sendMail(username, email) {
+
+    var params = {
+        email: email,
+        message: `Your username is: ${username}`
+    };
+
+    const serviceID = "service_96gwdm7";
+    const templateID = "template_hb0yxai!!";
+
+    emailjs.send(serviceID, templateID, params)
+        .then(res => {
+            console.log(res);
+            alert("Check your email to get your login info.")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        .finally(() => {
+            window.location.href = "./index.html"
+        });
+}
+
 //set adds user information to db
 async function SubmitForm() {
+    console.log("Calling SubmitForm");
 
     var fullname = lName.value + " " + fName.value;
     var username = fName.value[0];
@@ -59,7 +85,10 @@ async function SubmitForm() {
                 userDOB: DOB.value,
                 userPW: password.value,
                 userRole: "accountant"
-            }).then(() => window.location.href = "/index.html");
+            }).then(() => {
+                console.log("Calling SendEmail");
+                sendMail(username, document.getElementById("emailInput").value);
+            });
         } else {
             console.log(pCheck1.value)
             console.log(pCheck2.value);

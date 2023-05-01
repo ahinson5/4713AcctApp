@@ -2,9 +2,21 @@
 <html>
 
 <head>
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("J01QMSmqj93QY8gmJ");
+        })();
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("zJN84S_biLvwItfcK");
+        })();
+    </script>
+    <link rel="stylesheet" href="global.css">
 </head>
-<link rel="stylesheet" href="global.css">
 
 <body>
     <img src="project_logo.png" width="150" height="150" style="float: left;">
@@ -12,6 +24,8 @@
     <div class="center">
         <form id="createNewUserForm" onsubmit="return false">
             <h1>Enter your information</h1>
+            <label for="email">Enter your email:</label><br>
+            <input type="text" id="emailInput" name="email" placeholder="Enter your email.."><br>
             <label for="firstName">Enter your first name:</label><br>
             <input type="text" id="firstName" name="firstName" placeholder="Enter your first name..."><br>
             <label for="lastName">Enter your last name:</label><br>
@@ -30,7 +44,7 @@
             </div>
 
         </form>
-        <script src="./dist/createnewuser.bundle.js"></script>
     </div>
+    <script src="./dist/createnewuser.bundle.js"></script>
 </body>
 </html>
