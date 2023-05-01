@@ -23,12 +23,13 @@ function ReadCoaLogFromDB(snapshot){
         // to get a value that is either negative, positive, or zero.
         return new Date(b.Date) - new Date(a.Date);
     });
-
+    //reference table
     const table = document.getElementById("COALogTable");
     const rows = table.getElementsByTagName("tr");
 
     var j = 0;
-    for(var i = 1; i < rows.length; i++){
+    for (var i = 1; i < rows.length; i++){
+        //load values into table
         const cols = rows[i].getElementsByTagName("td");
         if(!children[j]) continue;
         cols[0].textContent = children[j].Date;

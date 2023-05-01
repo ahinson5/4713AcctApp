@@ -17,10 +17,9 @@
     </script>
     <link rel="stylesheet" href="global.css">
 </head>
-
 <body>
     <img src="project_logo.png" width="150" height="150" style="float: left;">
-
+    <!-- form for user information entry-->
     <div class="center">
         <form id="createNewUserForm" onsubmit="return false">
             <h1>Enter your information</h1>
@@ -38,6 +37,7 @@
             <input type="text" class="password" name="password" placeholder="Enter your password..."><br>
             <label for="instr">8 character minimum and must contain at least 1 special character and 1 number minimum</label><br><br>
             <div>
+                <!-- button definitions-->
                 <button type="submit" class="submitBtn">Submit</button>
                 <label class="infoLabel"></label><br>
                 <button onclick="window.location.href = './index.html';" value="backButton">Back</button><br>

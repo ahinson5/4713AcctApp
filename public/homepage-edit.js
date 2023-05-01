@@ -9,6 +9,7 @@ window.addEventListener('load', (event) => {
     ReadCoaFromDB();
 });
 
+
 saveDataButton.addEventListener("click", () => {
     WriteCoaToDB();
     ReadCoaFromDB();
@@ -49,7 +50,7 @@ function WriteCoaToDB() {
         }
     }
 }
-
+//post data event to input snapshot 
 function EventLogUpdate(snapshot, data){
     var id = GetUniqueID();
     const date = new Date();
@@ -61,6 +62,7 @@ function EventLogUpdate(snapshot, data){
     });
 }
 
+//create new event
 function EventLogCreate(data){
     var id = GetUniqueID();
     const date = new Date();
@@ -71,9 +73,8 @@ function EventLogCreate(data){
         After: `${data[0]},${data[1]},${data[2]},${data[3]}`
     });
 }
-
+//return boolean on COA change
 function HasCOAChanged(snapshot, data){
-
     if(snapshot.val().No != data[0] || snapshot.val().Title != data[1] || snapshot.val().Type != data[2] || snapshot.val().ToIncrease != data[3]){
         return true;
     } else{

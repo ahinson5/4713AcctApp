@@ -20,10 +20,7 @@ async function changePassword() {
     pCheck1 = 0;
     pCheck2 = 0;
     var pword = passwordBox.value;
-    console.log(pword.charAt(0));
     //username formatting
-    console.log(passwordBox.value);
-    console.log(pword);
     if (pword.length > 7 && alphaReg.test(pword.charAt(0))) {
         //length = 8 or greater AND it contains one letter
         //check entire string for digit and sc
@@ -36,13 +33,9 @@ async function changePassword() {
                 pCheck2 = 1;
             }
         }
-        console.log(pCheck1)
-        console.log(pCheck2)
         if (pCheck1 === 1 && pCheck2 === 1) {
-
-            console.log("in function2")
+            //set new password in RTDB
             await get(child(ref(db), `users/` + usernameBox.value)).then((snapshot) => {
-                console.log("snapshot");
                 if (snapshot.exists()) {
                     update(ref(db, 'users/' + usernameBox.value), {
                         userPW: pword
@@ -52,15 +45,13 @@ async function changePassword() {
                 console.error(error);
             });
         } else {
-            console.log(pCheck1.value)
-            console.log(pCheck2.value);
+            //format catch
             passwordBox.value = '';
             passwordBox.placeholder = 'Incorrect password format';
         }
 
     } else {
-        console.log(pCheck1)
-        console.log(pCheck2);
+        //format catch
         passwordBox.value = '';
         passwordBox.placeholder = 'Incorrect password format';
     }

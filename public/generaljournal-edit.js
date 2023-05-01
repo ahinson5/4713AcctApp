@@ -17,12 +17,12 @@ saveDataButton.addEventListener("click", () => {
     });
 });
 
-
-function ValidateDebitsAndCredits(dcsv, ccsv, rowNum){
-    
+//take in debit and credit csv and compare parses
+function ValidateDebitsAndCredits(dcsv, ccsv, rowNum) {
+    //parse inputs
     var debits = dcsv.split(",");
     var credits = ccsv.split(",");
-    if(debits[1] === credits[0] && debits[0] === credits[1]){
+    if (debits[1] === credits[0] && debits[0] === credits[1]) {
         errorLabel.textContent = "";
         return true;
     } else{
@@ -32,7 +32,7 @@ function ValidateDebitsAndCredits(dcsv, ccsv, rowNum){
         return false;
     }
 }
-
+//push input error to DB
 async function PostErrorLogToDB(message){
     const date = new Date();
     set(ref(getDatabase(app), `ErrorLogs/${GetUniqueID()}`), {
@@ -41,7 +41,7 @@ async function PostErrorLogToDB(message){
         Message: message
     });
 }
-
+//validates accounts
 function ValidateAccountName(count, rowNum){
     if(count >= 2){
         errorLabel.textContent = "";
@@ -53,7 +53,7 @@ function ValidateAccountName(count, rowNum){
         return false;
     }
 }
-
+//check if given array is empty
 function IsInputArrayBlank(arr){
     for(var i  = 0; i < arr.length; i++){
         if(arr[i] != ""){
@@ -119,7 +119,7 @@ async function WriteCoaToDB() {
         }
     }
 }
-
+//checks if jounal contents change returns boolean
 function HasGenJournalChanged(snapshot, data){
     if(snapshot.val().Date != data[0] || snapshot.val().Accounts != data[1] || snapshot.val().Description != data[2] || snapshot.val().Debits != data[3] || snapshot.val().Credits != data[4]){
         return true;

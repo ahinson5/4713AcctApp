@@ -1,49 +1,46 @@
 import { app } from "./firebaseinit";
 import { child, get, getDatabase, ref, set, update } from "firebase/database";
 import { ShowLoggedInUserInfo } from "./MyUtil";
-//import { event } from "../node_modules/firebase-functions/lib/v1/providers/analytics";
 
-
-const entryTable = document.getElementById("entryDisplay");
-const rows = entryTable.getElementsByTagName("tr");
+//connecting buttons to functions
 const getEntryBtn = document.getElementById("getEntryBtn");
 const approveBtn = document.getElementById("approveBtn");
 const denyBtn = document.getElementById("denyBtn");
+//reference to table and row
+const table = document.getElementById("entryDisplay");
+const rows = table.getElementsByTagName("tr");
+//control and operation objects
 var arrayCheck = 0;
-const entryArray = [];
-const nameArray = [];
+const entryArray = [];//stores entry objects retrieved from RTDB
+const nameArray = [];//stores entry object name for RTDB identification
+//firebase RTDB references for firebase methods to operate on
 const db = getDatabase(app);
 const dbRef = ref(db);
-const table = document.getElementById("entryDisplay");
 
+//on load
 window.addEventListener('load', (event) => {
-    console.log("window load")
     ShowLoggedInUserInfo();
     getEntries();
 });
-
+//on click display entry funciton call
 getEntryBtn.addEventListener("click", (event) => {
-    console.log("getNewEntryButton");
     displayToTable();
 });
-
+//on click approve current entry approval
 approveBtn.addEventListener("click", (event) => {
-    console.log("approveButton");
     setApprove();
 });
+//on click deny current entry approval
 denyBtn.addEventListener("click", (event) => {
-    console.log("denyButton")
     setDenied();
 });
 
+//"pops" entry off array
 function displayToTable() {
-    console.log("displayToTable func entered");
-    let size = entryArray.length;
-    const loadArray = [];
-    if (entryArray.length != 0) {//if array of children is not empty
-        //date, item, post ref.,debit ,credit, account no
-        //child blocks
-        //parse blocks into substrings and store each individual string in new row of column
+    let size = entryArray.length;//size = # retrieved entries
+    const loadArray = [];//manipulation table
+    if (entryArray.length != 0) {
+        //data fields with default blank values
         var Date = ' ';
         var Accounts = ' ';
         var PostRef = ' ';
@@ -61,24 +58,19 @@ function displayToTable() {
         for (var x = 0; x < 6; x++) {
             cell = row.insertCell(x);
             cell.innerHTML = loadArray[x];
-            console.log(loadArray[x]);
         }
     } else {
         console.log("no more entries to evaluate")
     }
 };
 async function getEntries() {
-    //console.log("getEntries function entered");
+    //get full snapshot of Journal collection
     await get(child(dbRef, `Journal/`)).then((snapshot) => {
-        //console.log("GNE");
         if (snapshot.exists()) {
-            //console.log("Journal snapshot exists");
-            snapshot.forEach((child) => {//gets the account child
+            snapshot.forEach((child) => {//iterate through each child
                 const localChild = child;
                 const childName = child.key;
-                console.log(childName);
-                console.log(child.val());
-                if (localChild.child("Approved").val() == "Pending") {//checks acount childs "Approved" child for "pending"
+                if (localChild.child("Approved").val() == "Pending") {//checks acount childs "Approved" object for "pending"
                     entryArray.push(child.val());//stores account childs values in array if its value is "pending"
                     nameArray.push(childName);//stores account childs name in array if its value is "pending"
                     arrayCheck = 1;
@@ -86,29 +78,27 @@ async function getEntries() {
             })
         }
         if (arrayCheck == 0) {
+            //user feedback
             var row = table.insertRow(1);
             var cell = row.insertCell(0);
             cell.innerHTML = "No pending entries";
-            console.log("No pending entries");
         }
-        console.log(entryArray.length);
     }).catch((error) => {
         console.error(error);
     });
 };
 
 async function setApprove() {
-
+    //sets Journal Entry value to approved, and propogates approved entry to Ledger
     const getJournal = await get(child(ref(db), `Journal/` + nameArray[0]));
     if (getJournal.exists()) {
         update(ref(db, 'Journal/' + nameArray[0]), {
             Approved: 'Approved'
         });
-
         var accounts = entryArray[0].Accounts.split(",");
         var debits = entryArray[0].Debits.split(",");
         var credits = entryArray[0].Credits.split(",");
-
+        //format data to populate
         for(var i = 0; i < 2; i++){
             const getProm = await get(child(dbRef, `Ledger/${accounts[i]}`));
             var size = getProm.size;
@@ -121,14 +111,13 @@ async function setApprove() {
             });
         }
         CalcAndUpdateLedgerBal();
-
         nameArray.shift();
         entryArray.shift();
     } else {
+        //user feedback
         var row = table.insertRow(1);
         cell = row.insertCell(1);
         cell.innerHTML = "No pending entries";
-        console.log("No pending entries")
     }
     table.deleteRow(1);
 
@@ -152,7 +141,7 @@ function CalcAndUpdateLedgerBal(){
 }
 
 async function setDenied() {
-    console.log("set denied called");
+        //Set current entry approved value to denied
     await get(child(ref(db), `Journal/` + nameArray[0])).then((snapshot) => {
         console.log(child.key);
         if (snapshot.exists()) {
@@ -173,7 +162,7 @@ async function setDenied() {
 };
 
 function ParseCSV(inputString) {
-    console.log("in csv" + inputString);
+    //parse string into format based on CSV
     const stringArr = inputString.split(",");
     var formattedString = "";
     for (var i = 0; i < stringArr.length; i++) {
